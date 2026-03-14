@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Powerful Knowledge - King's Group Academies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+  /* ── LOADING SCREEN ── */
+  #loading {
+    position: fixed; inset: 0; z-index: 100;
+    background: #000; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; overflow: hidden;
+  }
+  #loading.fade-out { animation: loadFadeOut 1.8s ease forwards; }
+  @keyframes loadFadeOut { to { opacity: 0; pointer-events: none; } }
+
+  /* Intro logo phase */
+  #intro-logo {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    max-width: min(320px, 70vw);
+    opacity: 0; animation: logoShow 3.8s ease 0.4s forwards;
+  }
+  #intro-logo-fallback {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center; opacity: 0;
+    animation: logoShow 3.8s ease 0.4s forwards;
+  }
+  #intro-logo-fallback span { display: block; font-family: Questrial, sans-serif;
+    font-size: 22px; letter-spacing: 4px; color: #fdb950; text-transform: uppercase; }
+  @keyframes logoShow {
+    0%   { opacity:0; transform: translate(-50%,-50%) scale(0.92); }
+    20%  { opacity:1; transform: translate(-50%,-50%) scale(1); }
+    75%  { opacity:1; transform: translate(-50%,-50%) scale(1); }
+    100% { opacity:0; transform: translate(-50%,-50%) scale(1.04); }
+  }
+
+  /* "In a galaxy..." text */
+  #long-ago {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: Questrial, sans-serif; font-size: clamp(13px,2vw,18px);
+    color: #9dc4cf; letter-spacing: 3px; text-align: center; line-height: 1.8;
+    opacity: 0; animation: fadeInOut 3.5s ease 4.2s forwards;
+    white-space: nowrap;
+  }
+  @keyframes fadeInOut {
+    0%{opacity:0} 20%{opacity:1} 75%{opacity:1} 100%{opacity:0}
+  }
+
+  /* Star Wars crawl */
+  #crawl-scene {
+    position: absolute; inset: 0;
+    overflow: hidden;
+    opacity: 0; animation: crawlSceneIn 0.8s ease 7.8s forwards;
+  }
+  @keyframes crawlSceneIn { to { opacity: 1; } }
+  #crawl-fade-top {
+    position: absolute; top: 0; left: 0; right: 0; height: 30%;
+    background: linear-gradient(to bottom, #000 40%, transparent);
+    z-index: 3; pointer-events: none;
+  }
+  #crawl-fade-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 15%;
+    background: linear-gradient(to top, #000 30%, transparent);
+    z-index: 3; pointer-events: none;
+  }
+  #crawl-text {
+    position: absolute; width: 60%; left: 20%;
+    top: 100%;           /* starts fully below the screen */
+    text-align: center;
+    animation: crawlScroll 120s linear 8s both;
+    color: #fdb950;
+    font-family: Questrial, sans-serif;
+    font-size: clamp(17px, 2.2vw, 28px);
+    line-height: 2;
+  }
+  @keyframes crawlScroll {
+    from { top: 100%;  }
+    to   { top: -500%; }
+  }
+  #crawl-text .crawl-logo { display: block; text-align: center;
+    font-size: clamp(13px, 1.6vw, 20px); letter-spacing: 5px;
+    color: #9dc4cf; margin-bottom: 0.5em; }
+  #crawl-text .crawl-title { display: block; text-align: center;
+    font-size: clamp(26px, 4vw, 48px); font-family: Questrial, sans-serif;
+    letter-spacing: 6px; color: #fdb950; margin: 0.4em 0 1.2em; line-height:1.2; }
+  #crawl-text .crawl-hl { display: block; text-align: center;
+    font-size: clamp(20px, 2.8vw, 34px); letter-spacing: 4px;
+    color: #fff; margin: 1.2em 0; line-height: 1.4; }
+  #crawl-text p { margin-bottom: 1.1em; }
+
+  /* Skip button */
+  #skip-btn {
+    position: absolute; bottom: 28px; right: 28px;
+    background: rgba(23,84,98,0.6); border: 1px solid #fdb950;
+    color: #fdb950; font-family: Questrial, sans-serif;
+    font-size: 13px; letter-spacing: 2px; padding: 9px 22px;
+    border-radius: 30px; cursor: pointer;
+    opacity: 0; animation: skipShow 1s ease 9s forwards;
+    transition: background 0.2s;
+  }
+  #skip-btn:hover { background: rgba(23,84,98,0.9); }
+  @keyframes skipShow { to { opacity: 1; } }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #020e18;
+      overflow: hidden;
+      font-family: Questrial, Calibri, 'Trebuchet MS', Arial, sans-serif;
+      color: #fff;
+      user-select: none;
+    }
+    canvas { display: block; cursor: default; }
+    #ui { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+
+    #header {
+      position: absolute; top: 20px; left: 50%;
+      transform: translateX(-50%); text-align: center; white-space: nowrap;
+    }
+    #header h1 {
+      font-size: 27px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+      font-family: Questrial, sans-serif;
+      background: linear-gradient(135deg, #fdb950, #e8a020);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    #header p {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(157,196,207,0.6); margin-top: 5px;
+    }
+    #header img { max-height: 42px; display: block; margin: 0 auto 6px; opacity: 0.92; }
+
+    #back-btn {
+      position: absolute; top: 20px; left: 22px;
+      background: rgba(23,84,98,0.55); border: 1px solid #fdb950;
+      color: #fdb950; padding: 8px 20px; border-radius: 30px;
+      font-size: 13px; font-family: Questrial, sans-serif; letter-spacing: 1px;
+      cursor: pointer; pointer-events: all; opacity: 0;
+      transition: opacity 0.4s, background 0.2s;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    #back-btn:hover { background: rgba(23,84,98,0.9); }
+    #back-btn.visible { opacity: 1; }
+
+    #breadcrumb {
+      position: absolute; bottom: 26px; left: 50%;
+      transform: translateX(-50%); text-align: center;
+      font-size: 12px; color: rgba(253,185,80,0.45);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      transition: opacity 0.4s; white-space: nowrap;
+    }
+
+    #kcard {
+      position: absolute; max-width: 300px; min-width: 180px;
+      background: rgba(2,14,30,0.92); border: 1px solid #fdb950;
+      border-radius: 14px; padding: 14px 18px; pointer-events: none;
+      opacity: 0; transition: opacity 0.18s; backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 0 24px rgba(253,185,80,0.12);
+    }
+    #kcard.visible { opacity: 1; }
+    #kcard-name { font-size: 15px; font-weight: 700; margin-bottom: 7px; color: #fdb950; }
+    #kcard-desc { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.82); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ LOADING SCREEN ══════════ -->
+<div id="loading">
+  <!-- Phase 1: Logo -->
+  <img id="intro-logo"
+    src="https://kgabrunepark.uk/wp-content/uploads/sites/7/2025/08/KGA-Logo-Banner.png"
+    alt="King's Group Academies"
+    onerror="this.style.display='none'; document.getElementById('intro-logo-fallback').style.display='block';" />
+  <div id="intro-logo-fallback" style="display:none">
+    <span>King's Group Academies</span>
+  </div>
+
+  <!-- Phase 2: Intro text -->
+  <div id="long-ago">In a universe of knowledge,<br>one truth stands above all others…</div>
+
+  <!-- Phase 3: Star Wars crawl -->
+  <div id="crawl-scene">
+    <div id="crawl-fade-top"></div>
+    <div id="crawl-fade-bottom"></div>
+    <div id="crawl-text">
+      <span class="crawl-logo">KING'S GROUP ACADEMIES PRESENTS</span>
+      <span class="crawl-title">POWERFUL<br>KNOWLEDGE</span>
+
+      <p>Not all knowledge is equal.</p>
+
+      <p>There is a special kind of understanding - carefully chosen, rigorously taught - that opens every door, unlocks every opportunity, and prepares young minds for the challenges of the modern world.</p>
+
+      <p>This is <strong>Powerful Knowledge</strong> - the essential curriculum that every student between the ages of eleven and sixteen should master.</p>
+
+      <p>At King's Group Academies, we believe every young person deserves access to the very best ideas humanity has ever produced, regardless of background or circumstance.</p>
+
+      <p>The universe before you maps the complete body of knowledge across ten subjects: Mathematics, English, Science, History, Geography, Languages, Art &amp; Design, Music, Computing, and Religious Education &amp; Ethics.</p>
+
+      <p>Each subject is a world. Each topic is a stepping stone. Each piece of Powerful Knowledge is a key - a key to thinking clearly, reasoning deeply, and achieving extraordinary things.</p>
+
+      <span class="crawl-hl">OPPORTUNITY AND SUCCESS<br>ON A GLOBAL STAGE</span>
+
+      <p>The knowledge contained in this universe is not merely information. It is the foundation of ambition. The bedrock of understanding. The currency of the future.</p>
+
+      <p>Students who master this knowledge will be equipped to think like engineer, write like scholars, reason like scientists, and engage with the world like informed global citizens.</p>
+
+      <p>Explore the universe. Navigate the subjects. Orbit the topics. And claim every piece of Powerful Knowledge as your own.</p>
+
+      <p>Your future begins here. Your journey starts now.</p>
+
+      
+    </div>
+  </div>
+
+  <!-- Skip button -->
+  <button id="skip-btn" onclick="endLoading()">Skip Introduction ›</button>
+</div>
+
+<canvas id="canvas"></canvas>
+<div id="ui">
+  <div id="header">
+    <img src="https://kgabrunepark.uk/wp-content/uploads/sites/7/2025/08/KGA-Logo-Banner.png"
+      alt="KGA" onerror="this.style.display='none'" />
+    <h1>Powerful Knowledge</h1>
+    <p>King's Group Academies &nbsp;·&nbsp; Secondary Curriculum</p>
+  </div>
+  <button id="back-btn">← Back</button>
+  <div id="breadcrumb">Click a subject to explore · Scroll to zoom · Drag to pan</div>
+  <div id="kcard"><div id="kcard-name"></div><div id="kcard-desc"></div></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// CURRICULUM DATA - subjects → topics → powerful knowledge
+// ═══════════════════════════════════════════════════════════════
+const S = [ // subjects
+  { name:'Mathematics', color:'#4FC3F7', dark:'#0277BD', size:27, orbitR:162, speed:0.38, angle:0,
+    topics:[
+      { name:'Algebra', knowledge:[
+        {n:'Variable',       d:'A symbol, usually a letter, that represents an unknown or changing quantity in an expression or equation.'},
+        {n:'Expression',     d:'A combination of numbers, variables and operations that represents a value - it has no equals sign, e.g. 3x + 2.'},
+        {n:'Equation',       d:'A mathematical statement that two expressions are equal, shown with an equals sign, e.g. 2x + 3 = 7.'},
+        {n:'Factorising',    d:'Writing an expression as a product of its factors - the reverse of expanding brackets, e.g. x² + 5x + 6 = (x+2)(x+3).'},
+      ]},
+      { name:'Pythagoras', knowledge:[
+        {n:'Hypotenuse',     d:'The longest side of a right-angled triangle, always opposite the right angle.'},
+        {n:"Theorem",        d:"In a right-angled triangle: a² + b² = c², where c is the hypotenuse. Used to find a missing side length."},
+        {n:'Proof',          d:'A logical argument, often using algebra or geometry, that demonstrates a theorem must always be true.'},
+        {n:'Pythagorean Triple', d:'A set of three whole numbers (e.g. 3, 4, 5) that satisfy Pythagoras\' theorem exactly.'},
+      ]},
+      { name:'Trigonometry', knowledge:[
+        {n:'SOHCAHTOA',      d:'A mnemonic for trig ratios in right triangles: Sin=Opp/Hyp, Cos=Adj/Hyp, Tan=Opp/Adj.'},
+        {n:'Sine',           d:'The ratio of the opposite side to the hypotenuse in a right-angled triangle: sin θ = opp/hyp.'},
+        {n:'Cosine',         d:'The ratio of the adjacent side to the hypotenuse in a right-angled triangle: cos θ = adj/hyp.'},
+        {n:'Tangent',        d:'The ratio of the opposite side to the adjacent side in a right-angled triangle: tan θ = opp/adj.'},
+      ]},
+      { name:'Probability', knowledge:[
+        {n:'Event',          d:'A specific outcome or set of outcomes from a probability experiment, e.g. rolling a 6 on a dice.'},
+        {n:'Sample Space',   d:'The complete list of all possible outcomes in a probability experiment, often shown as a list or diagram.'},
+        {n:'Tree Diagram',   d:'A branching diagram used to show all outcomes of two or more events and calculate combined probabilities.'},
+        {n:'Relative Frequency', d:'An estimate of probability found by dividing the number of times an event occurred by the total number of trials.'},
+      ]},
+      { name:'Statistics', knowledge:[
+        {n:'Mean',           d:'The arithmetic average, found by summing all values and dividing by the number of values.'},
+        {n:'Median',         d:'The middle value when data is arranged in order; if two middle values exist, take their mean.'},
+        {n:'Mode',           d:'The value that appears most frequently in a data set; a data set can have more than one mode.'},
+        {n:'Quartiles',      d:'Values that split ordered data into four equal groups; the interquartile range (IQR) = Q3 − Q1 and measures spread.'},
+      ]},
+      { name:'Geometry', knowledge:[
+        {n:'Angle Types',    d:'Acute (<90°), right (90°), obtuse (90–180°), straight (180°), reflex (>180°) - angles are measured in degrees.'},
+        {n:'Parallel Lines', d:'Lines that never meet; transversals cutting parallel lines create equal alternate angles and co-interior angles summing to 180°.'},
+        {n:'Congruence',     d:'Two shapes are congruent if they are identical in shape and size - one can be mapped onto the other by rotation, reflection or translation.'},
+        {n:'Tessellation',   d:'A pattern of shapes that tiles a flat surface with no gaps or overlaps; regular polygons that tessellate include equilateral triangles, squares and hexagons.'},
+      ]},
+      { name:'Fractions & Decimals', knowledge:[
+        {n:'Numerator',      d:'The top number of a fraction, representing how many equal parts are being considered out of the total.'},
+        {n:'Denominator',    d:'The bottom number of a fraction, representing the total number of equal parts the whole is divided into.'},
+        {n:'Equivalent Fraction', d:'Fractions representing the same value, created by multiplying or dividing numerator and denominator by the same number.'},
+        {n:'Recurring Decimal', d:'A decimal in which one or more digits repeat infinitely, e.g. 1/3 = 0.333... Written with a dot above the repeating digit(s).'},
+      ]},
+      { name:'Simultaneous Equations', knowledge:[
+        {n:'Elimination',    d:'A method for solving simultaneous equations by adding or subtracting them to remove one variable.'},
+        {n:'Substitution',   d:'A method where one equation is rearranged and substituted into the other to find the unknown variables.'},
+        {n:'Linear',         d:'A linear equation has variables raised only to the power of 1, producing a straight-line graph when plotted.'},
+        {n:'Solution',       d:'The pair of values (x, y) that simultaneously satisfy both equations; the point where two graphs intersect.'},
+      ]},
+      { name:'Quadratic Equations', knowledge:[
+        {n:'Quadratic Formula', d:'x = (−b ± √(b²−4ac)) / 2a, used to solve any quadratic equation ax² + bx + c = 0.'},
+        {n:'Discriminant',   d:'The expression b²−4ac: if positive, two real roots; if zero, one repeated root; if negative, no real roots.'},
+        {n:'Roots',          d:'The values of x where the quadratic equals zero; these are the x-intercepts (or roots) of the parabola.'},
+        {n:'Completing the Square', d:'Rewriting ax² + bx + c in the form a(x+p)² + q; reveals the vertex of the parabola and can be used to solve.'},
+      ]},
+      { name:'Ratio & Proportion', knowledge:[
+        {n:'Ratio',          d:'A comparison of two or more quantities expressed as a:b, showing how many times one value contains or is contained by another.'},
+        {n:'Proportion',     d:'Two quantities are in proportion if they increase or decrease at the same rate, i.e. their ratio stays constant.'},
+        {n:'Direct Proportion', d:'When one quantity increases, the other increases at the same rate: y = kx, shown as a straight line through the origin.'},
+        {n:'Scale Factor',   d:'The multiplier used to enlarge or reduce a shape; a scale factor of 3 means each length is multiplied by 3.'},
+      ]},
+    ]
+  },
+  { name:'English', color:'#EF9A9A', dark:'#C62828', size:30, orbitR:248, speed:0.27, angle:Math.PI*0.2,
+    topics:[
+      { name:'Shakespeare', knowledge:[
+        {n:'Iambic Pentameter', d:'A rhythmic pattern of ten syllables per line alternating unstressed–stressed beats (da-DUM), the metre of most Shakespeare verse.'},
+        {n:'Soliloquy',      d:'A speech where a character speaks their thoughts aloud alone on stage, giving the audience direct access to their inner mind.'},
+        {n:'Elizabethan Context', d:'Shakespeare wrote in Elizabethan England (1558–1603): a patriarchal society shaped by the Protestant Reformation, monarchy and Renaissance humanism.'},
+        {n:'The Globe Theatre', d:'The open-air theatre in London (1599) associated with Shakespeare\'s company; its circular design allowed an audience of up to 3,000.'},
+      ]},
+      { name:'Poetry', knowledge:[
+        {n:'Metaphor',       d:'A direct comparison stating one thing IS another, e.g. "The world is a stage" - it creates meaning without using "like" or "as".'},
+        {n:'Enjambment',     d:'When a sentence or phrase continues beyond the end of one line into the next without a pause; creates flow or mimics movement.'},
+        {n:'Volta',          d:'The turning point in a poem, often in sonnets between line 8 and 9, where the tone, subject or argument shifts.'},
+        {n:'Stanza',         d:'A grouped set of lines in a poem, separated by a blank line - the poetic equivalent of a paragraph in prose.'},
+      ]},
+      { name:'Essay Writing', knowledge:[
+        {n:'Thesis Statement', d:'A clear, concise sentence at the start of an essay stating the main argument or position the writer will develop.'},
+        {n:'P-E-E Structure', d:'Point–Evidence–Explanation: state a point, support with a quotation or example, then explain how it supports your argument.'},
+        {n:'Counter-Argument', d:'Acknowledging an opposing viewpoint before refuting it; shows sophisticated thinking and strengthens the overall argument.'},
+        {n:'Cohesion',       d:'The flow of an essay, created through discourse markers (however, furthermore, consequently) and clear logical progression between points.'},
+      ]},
+      { name:'Grammar & Syntax', knowledge:[
+        {n:'Syntax',         d:'The arrangement of words and phrases to create well-formed sentences; syntax affects emphasis, tone and meaning.'},
+        {n:'Subordinate Clause', d:'A clause that cannot stand alone as a sentence; it depends on a main clause, e.g. "although it was raining" (dependent clause).'},
+        {n:'Semantic Field',  d:'A group of words related in meaning that cluster around a theme, e.g. war vocabulary: battle, trench, shell, blood.'},
+        {n:'Determiner',     d:'A word that introduces a noun and specifies it - includes articles (the, a), possessives (my, their) and demonstratives (this, those).'},
+      ]},
+      { name:'Rhetoric & Persuasion', knowledge:[
+        {n:'Ethos',          d:'An appeal to the speaker\'s credibility or ethical standing to persuade the audience to trust the argument.'},
+        {n:'Pathos',         d:'An appeal to the audience\'s emotions - fear, sympathy, anger - to persuade them to feel a certain way.'},
+        {n:'Logos',          d:'An appeal to logic and reason, using facts, statistics and evidence to build a rational argument.'},
+        {n:'Rule of Three',  d:'Listing three items together for rhetorical effect; three-part structures feel complete and are highly memorable.'},
+      ]},
+      { name:'Character Analysis', knowledge:[
+        {n:'Protagonist',    d:'The central character of a narrative, usually facing the key conflict; the story is primarily told through their journey.'},
+        {n:'Motivation',     d:'The desires, fears or goals that drive a character\'s actions; understanding motivation explains why characters behave as they do.'},
+        {n:'Character Arc',  d:'The internal transformation a character undergoes during a narrative - from flawed to enlightened, innocent to corrupted, etc.'},
+        {n:'Foil',           d:'A character whose contrasting traits highlight qualities in another character, e.g. Laertes as a foil to Hamlet\'s indecisiveness.'},
+      ]},
+      { name:'Narrative Voice', knowledge:[
+        {n:'First Person',   d:'The narrator is a character in the story, using "I"; creates intimacy but is subjective and limited in perspective.'},
+        {n:'Omniscient Narrator', d:'A third-person narrator who knows the thoughts, feelings and actions of all characters; creates a "god-like" perspective.'},
+        {n:'Unreliable Narrator', d:'A narrator whose account is not fully trustworthy - due to bias, limited knowledge or deception - forcing readers to read critically.'},
+        {n:'Free Indirect Discourse', d:'A technique that blends a character\'s thoughts with third-person narration, without explicit speech tags.'},
+      ]},
+      { name:'Context & Theme', knowledge:[
+        {n:'Social Context', d:'The values, norms, class structures and social attitudes of the society in which a text was written or is set.'},
+        {n:'Theme',          d:'A central idea explored throughout a text, such as power, identity, loss or justice - themes are abstract concepts, not plot events.'},
+        {n:'Sub-text',       d:'The underlying meaning beneath the surface of a text; what is implied but not directly stated by a character or narrator.'},
+        {n:'Intertextuality', d:'References within a text to other texts, events or cultural knowledge that enrich meaning for the informed reader.'},
+      ]},
+      { name:'Spoken Language', knowledge:[
+        {n:'Register',       d:'The level of formality in language, adjusted according to audience and context - formal (job interview) vs. informal (friends).'},
+        {n:'Dialect',        d:'A regional variety of a language with distinct vocabulary, grammar and pronunciation, e.g. Yorkshire dialect or Cockney.'},
+        {n:'Idiolect',       d:'An individual\'s unique pattern of language use - the personal dialect shaped by background, education and social groups.'},
+        {n:'Paralanguage',   d:'Non-verbal elements of communication including tone, pitch, pace, volume and gesture that convey meaning alongside words.'},
+      ]},
+      { name:'Media & Non-Fiction', knowledge:[
+        {n:'Bias',           d:'A tendency to present information favourably or unfavourably towards a particular viewpoint, often influencing the reader unconsciously.'},
+        {n:'Mode of Address', d:'How a text "speaks" to its audience - direct (you), formal or informal - shaping the relationship between text and reader.'},
+        {n:'Representation', d:'How people, places or issues are portrayed in media; representations can reinforce or challenge stereotypes.'},
+        {n:'Discourse',      d:'A particular way of talking about a topic that reflects underlying attitudes and power structures, e.g. medical discourse about the body.'},
+      ]},
+    ]
+  },
+  { name:'Science', color:'#A5D6A7', dark:'#2E7D32', size:35, orbitR:335, speed:0.19, angle:Math.PI*0.4,
+    topics:[
+      { name:'Cell Biology', knowledge:[
+        {n:'Mitosis',        d:'Cell division producing two genetically identical daughter cells, used for growth, repair and asexual reproduction.'},
+        {n:'Organelle',      d:'A specialised structure within a cell with a specific function, e.g. mitochondria (energy), ribosomes (protein synthesis).'},
+        {n:'Cell Membrane',  d:'A selectively permeable phospholipid bilayer controlling what enters and leaves the cell; maintains cell homeostasis.'},
+        {n:'Specialised Cell', d:'A cell adapted for a particular function, e.g. red blood cells (oxygen transport), nerve cells (electrical impulses).'},
+      ]},
+      { name:'Evolution', knowledge:[
+        {n:'Natural Selection', d:'The mechanism of evolution: organisms with beneficial traits survive and reproduce more, passing on those traits to offspring.'},
+        {n:'Adaptation',     d:'An inherited trait that improves an organism\'s ability to survive and reproduce in its environment over generations.'},
+        {n:'Mutation',       d:'A change in an organism\'s DNA; most are neutral, some harmful, a few may be advantageous and selected for by evolution.'},
+        {n:'Speciation',     d:'The process by which one species splits into two when populations are isolated long enough to become reproductively incompatible.'},
+      ]},
+      { name:'Photosynthesis', knowledge:[
+        {n:'Chlorophyll',    d:'The green pigment in chloroplasts that absorbs light energy (mainly red and blue wavelengths) to power photosynthesis.'},
+        {n:'Chloroplast',    d:'The organelle in plant cells where photosynthesis occurs; contains thylakoids and stroma for the light-dependent and light-independent reactions.'},
+        {n:'Equation',       d:'6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂ (using light energy). Carbon dioxide and water are converted to glucose and oxygen.'},
+        {n:'Limiting Factor', d:'A variable that restricts the rate of photosynthesis when in short supply - typically light intensity, CO₂ concentration or temperature.'},
+      ]},
+      { name:'Periodic Table', knowledge:[
+        {n:'Element',        d:'A pure substance made of only one type of atom; cannot be broken down into simpler substances by chemical means.'},
+        {n:'Atomic Number',  d:'The number of protons in the nucleus of an atom - this uniquely identifies the element and determines its position in the periodic table.'},
+        {n:'Period',         d:'A horizontal row in the periodic table; elements in the same period have the same number of electron shells.'},
+        {n:'Group',          d:'A vertical column in the periodic table; elements in the same group have the same number of outer electrons and similar chemical properties.'},
+      ]},
+      { name:'Chemical Reactions', knowledge:[
+        {n:'Reactants',      d:'The substances that enter a chemical reaction (left side of an equation) and are consumed to form products.'},
+        {n:'Products',       d:'The new substances formed as a result of a chemical reaction (right side of an equation).'},
+        {n:'Exothermic',     d:'A reaction that releases energy to the surroundings, usually as heat; the products have less energy than the reactants, e.g. combustion.'},
+        {n:'Conservation of Mass', d:'In a chemical reaction, the total mass of reactants equals the total mass of products - atoms are rearranged, never created or destroyed.'},
+      ]},
+      { name:"Newton's Laws", knowledge:[
+        {n:'First Law (Inertia)', d:'An object remains stationary or moves at constant velocity unless acted upon by a resultant force.'},
+        {n:'Second Law',     d:'Force = mass × acceleration (F = ma). A larger resultant force produces greater acceleration; more mass requires more force.'},
+        {n:'Third Law',      d:'For every action there is an equal and opposite reaction; forces always act in pairs on different objects.'},
+        {n:'Momentum',       d:'The product of mass and velocity (p = mv); in a closed system, total momentum is conserved in a collision.'},
+      ]},
+      { name:'Waves & Radiation', knowledge:[
+        {n:'Wavelength',     d:'The distance between two successive identical points on a wave (e.g. crest to crest), measured in metres.'},
+        {n:'Frequency',      d:'The number of complete wave cycles passing a point per second, measured in hertz (Hz).'},
+        {n:'Electromagnetic Spectrum', d:'A family of transverse waves including radio, microwave, infrared, visible light, ultraviolet, X-rays and gamma rays, all travelling at 3×10⁸ m/s in a vacuum.'},
+        {n:'Amplitude',      d:'The maximum displacement of a wave from its rest position; greater amplitude means more energy.'},
+      ]},
+      { name:'Genetics & DNA', knowledge:[
+        {n:'Gene',           d:'A section of DNA coding for a specific protein; genes determine inherited characteristics.'},
+        {n:'Allele',         d:'A variant form of a gene; most organisms carry two alleles for each gene, one from each parent.'},
+        {n:'Dominant',       d:'An allele whose characteristic is expressed even when only one copy is present - represented by a capital letter, e.g. B.'},
+        {n:'Recessive',      d:'An allele whose characteristic is only expressed when two copies are present (homozygous) - represented by a lowercase letter, e.g. b.'},
+      ]},
+      { name:'Atomic Structure', knowledge:[
+        {n:'Proton',         d:'A positively charged particle in the nucleus; the proton number defines the element.'},
+        {n:'Neutron',        d:'An uncharged particle in the nucleus; the number of neutrons can vary - atoms with different neutron numbers are isotopes.'},
+        {n:'Electron',       d:'A negatively charged particle orbiting the nucleus in shells; electrons determine chemical behaviour and bonding.'},
+        {n:'Isotope',        d:'Atoms of the same element with different numbers of neutrons; same atomic number, different mass number, e.g. Carbon-12 and Carbon-14.'},
+      ]},
+      { name:'Ecosystems', knowledge:[
+        {n:'Food Web',       d:'A diagram showing the feeding relationships between multiple organisms in an ecosystem; more realistic than a simple food chain.'},
+        {n:'Biodiversity',   d:'The variety of living organisms in an ecosystem; high biodiversity makes ecosystems more stable and resilient.'},
+        {n:'Producer',       d:'An organism (usually a plant) that makes its own food through photosynthesis; forms the base of all food chains.'},
+        {n:'Decomposer',     d:'An organism (e.g. bacteria, fungi) that breaks down dead organic matter, recycling nutrients back into the soil.'},
+      ]},
+    ]
+  },
+  { name:'History', color:'#FFCC80', dark:'#E65100', size:25, orbitR:192, speed:0.32, angle:Math.PI*0.6,
+    topics:[
+      { name:'Medieval England', knowledge:[
+        {n:'Feudal System',  d:'A hierarchical system of land ownership and obligation: the monarch granted land to barons, who gave it to knights, who used serfs to farm it.'},
+        {n:'Magna Carta (1215)', d:'A charter forced on King John by rebellious barons, establishing for the first time that the king was subject to rule of law.'},
+        {n:'The Black Death', d:'A devastating plague (1348–49) that killed approximately one-third of England\'s population, causing profound social and economic upheaval.'},
+        {n:'The Crusades',   d:'A series of religious wars (1095–1291) launched by European Christians to recapture the Holy Land from Muslim rulers.'},
+      ]},
+      { name:'The Tudors', knowledge:[
+        {n:'Henry VIII',     d:'Tudor king (1509–47) who broke from the Catholic Church to establish the Church of England, enabling him to divorce Catherine of Aragon.'},
+        {n:'The Reformation', d:'A 16th-century religious revolution led by figures like Luther and Calvin, challenging the authority and practices of the Catholic Church.'},
+        {n:'Elizabeth I',    d:'England\'s Protestant queen (1558–1603) who strengthened the Church of England, patronised exploration and oversaw a cultural renaissance.'},
+        {n:'Spanish Armada (1588)', d:'A Spanish fleet sent to invade England; its defeat ended the serious threat of Catholic reconquest and boosted English national confidence.'},
+      ]},
+      { name:'Industrial Revolution', knowledge:[
+        {n:'Steam Engine',   d:'James Watt\'s improved steam engine (1769) powered factories, mills, and railways - the central technology of industrialisation.'},
+        {n:'Urbanisation',   d:'The mass movement of people from countryside to newly industrialised towns in search of factory work, creating overcrowded cities.'},
+        {n:'Factory System', d:'The organisation of labour in large factories replacing domestic (cottage) industry; workers operated machinery owned by capitalists.'},
+        {n:'Child Labour',   d:'The widespread employment of children in mines, mills and factories; gradually abolished by Factory Acts (1833, 1844) following reformers\' campaigns.'},
+      ]},
+      { name:'World War I', knowledge:[
+        {n:'Trenches',       d:'Elaborate networks of ditches on the Western Front where soldiers lived under fire; trench warfare led to stalemate and huge casualties.'},
+        {n:'Schlieffen Plan', d:'Germany\'s strategic plan to quickly defeat France through Belgium before turning to fight Russia; its failure led to the Western Front stalemate.'},
+        {n:'Western Front',  d:'The principal theatre of WWI, running from Belgium to Switzerland; characterised by trench warfare, mud and mass casualties.'},
+        {n:'Treaty of Versailles (1919)', d:'The peace treaty ending WWI that blamed Germany, stripped territory, limited its military and imposed reparations - contributing to WWII.'},
+      ]},
+      { name:'World War II', knowledge:[
+        {n:'Blitzkrieg',     d:'"Lightning war" - Germany\'s tactic of rapid, overwhelming combined arms attacks (tanks, aircraft, infantry) used to conquer France and Poland quickly.'},
+        {n:'The Holocaust',  d:'The systematic, state-sponsored murder of six million Jews and millions of others (Roma, disabled, LGBTQ+) by Nazi Germany and its collaborators.'},
+        {n:'D-Day (1944)',   d:'The Allied invasion of Normandy on 6 June 1944 - the largest seaborne invasion in history, opening the Western Front and hastening Germany\'s defeat.'},
+        {n:'Home Front',     d:'The civilian effort in Britain during WWII, including rationing, evacuation of children, women entering the workforce and the Blitz.'},
+      ]},
+      { name:'Cold War', knowledge:[
+        {n:'Iron Curtain',   d:'Winston Churchill\'s term (1946) for the ideological and physical division of Europe between the democratic West and communist East.'},
+        {n:'Cuban Missile Crisis (1962)', d:'A 13-day confrontation between the US and USSR over Soviet missiles in Cuba; the closest the Cold War came to nuclear conflict.'},
+        {n:'Arms Race',      d:'The competition between the USA and USSR to develop more and superior nuclear weapons; both sides developed enough to destroy the world many times over.'},
+        {n:'Proxy Wars',     d:'Conflicts where Cold War superpowers supported opposing sides without directly fighting each other, e.g. Korea, Vietnam, Angola.'},
+      ]},
+      { name:'Civil Rights Movement', knowledge:[
+        {n:'Segregation',    d:'The legal separation of Black and white Americans under Jim Crow laws in the South, enforced across schools, transport and public facilities.'},
+        {n:'Montgomery Bus Boycott (1955)', d:'A 381-day protest against bus segregation in Alabama, sparked by Rosa Parks\' arrest; ended in desegregation and launched MLK\'s national leadership.'},
+        {n:'Martin Luther King Jr', d:'Baptist minister and civil rights leader who championed non-violent protest; his 1963 "I Have a Dream" speech became an iconic call for racial equality.'},
+        {n:'Civil Rights Act (1964)', d:'US legislation banning discrimination based on race, colour, religion, sex or national origin in employment and public accommodations.'},
+      ]},
+      { name:'British Empire', knowledge:[
+        {n:'Colonialism',    d:'The policy of acquiring and maintaining colonies; Britain controlled approximately one quarter of the world\'s land and population at its empire\'s peak.'},
+        {n:'The Transatlantic Slave Trade', d:'Britain transported approximately 3.1 million enslaved Africans to the Americas between 1640 and 1807 to labour on plantations.'},
+        {n:'Decolonisation', d:'The process by which colonies gained independence, accelerating after WWII; most of Africa and Asia became independent by the 1960s–70s.'},
+        {n:'Legacy',         d:'The Empire\'s legacy includes migration, language, cultural exchange, but also exploitation, racism and ongoing inequality - still debated today.'},
+      ]},
+      { name:'Democracy & Protest', knowledge:[
+        {n:'Suffrage',       d:'The right to vote in elections; universal suffrage means all adult citizens can vote regardless of gender, race or class.'},
+        {n:'The Chartists',  d:'A working-class movement (1838–57) demanding political reform including votes for men, secret ballots and equal-sized constituencies.'},
+        {n:'The Suffragettes', d:'Women\'s militant campaign for the right to vote, led by Emmeline Pankhurst; women over 30 gained the vote in 1918.'},
+        {n:'Parliament',     d:'The UK\'s legislative body comprising the elected House of Commons and the appointed House of Lords; makes and scrutinises laws.'},
+      ]},
+      { name:'Migration & Identity', knowledge:[
+        {n:'Push Factor',    d:'A reason that drives people away from their home, such as famine, war, poverty or persecution.'},
+        {n:'Pull Factor',    d:'An attraction drawing people to a new place, such as economic opportunity, safety, education or family connections.'},
+        {n:'Windrush Generation', d:'Caribbean migrants who came to Britain from 1948 at the government\'s invitation to fill post-war labour shortages; faced significant discrimination.'},
+        {n:'Diaspora',       d:'A community living outside their original homeland, maintaining cultural, social or linguistic connections to that homeland.'},
+      ]},
+    ]
+  },
+  { name:'Geography', color:'#80DEEA', dark:'#00695C', size:28, orbitR:288, speed:0.23, angle:Math.PI*0.8,
+    topics:[
+      { name:'Tectonic Plates', knowledge:[
+        {n:'Plate Boundary', d:'Where two tectonic plates meet; constructive (moving apart), destructive (colliding), conservative (sliding past) boundaries each produce different hazards.'},
+        {n:'Subduction',     d:'When a denser oceanic plate is forced under a continental plate at a destructive boundary, melting to form magma and causing volcanoes.'},
+        {n:'Seismic Activity', d:'Vibrations in the Earth caused by sudden release of energy at fault lines; measured on the Richter or moment magnitude scale.'},
+        {n:'Convection Currents', d:'Circular movements of magma in the mantle, driven by heat from the core, that drag tectonic plates across Earth\'s surface.'},
+      ]},
+      { name:'Rivers & Coasts', knowledge:[
+        {n:'Erosion',        d:'The wearing away of rock by a river or sea; processes include hydraulic action, abrasion, attrition and corrosion.'},
+        {n:'Meander',        d:'A bend in a river formed when water erodes the outer bank and deposits sediment on the inner bank; meanders migrate slowly downstream.'},
+        {n:'Floodplain',     d:'The flat land either side of a river, formed from sediment deposited during floods; fertile but at risk of flooding.'},
+        {n:'Hydraulic Action', d:'The force of water pressing into cracks in rock, compressing air and widening the crack - a key erosion process on coasts and rivers.'},
+      ]},
+      { name:'Climate Change', knowledge:[
+        {n:'Greenhouse Effect', d:'Gases (CO₂, methane, water vapour) trap infrared radiation leaving Earth\'s surface, warming the atmosphere - essential for life, but enhanced by human activity.'},
+        {n:'Carbon Footprint', d:'The total greenhouse gas emissions caused directly and indirectly by an individual, organisation or product, measured in CO₂ equivalents.'},
+        {n:'Sea Level Rise',  d:'Caused by thermal expansion of warming oceans and melting ice; threatens low-lying coastal areas and small island nations.'},
+        {n:'Mitigation vs Adaptation', d:'Mitigation reduces climate change causes (e.g. renewable energy); adaptation adjusts to its effects (e.g. flood defences, drought-resistant crops).'},
+      ]},
+      { name:'Ecosystems', knowledge:[
+        {n:'Biome',          d:'A large-scale ecosystem defined by climate and vegetation, e.g. tropical rainforest, tundra, desert, temperate grassland.'},
+        {n:'Nutrient Cycle', d:'The continuous movement of nutrients through biotic (living) and abiotic (non-living) components of an ecosystem via decomposition, uptake and release.'},
+        {n:'Carrying Capacity', d:'The maximum population size an ecosystem can sustainably support given available resources such as food, water and space.'},
+        {n:'Deforestation',  d:'The large-scale removal of forests, reducing biodiversity, releasing stored carbon, disrupting the water cycle and increasing soil erosion.'},
+      ]},
+      { name:'Urbanisation', knowledge:[
+        {n:'Megacity',       d:'A city with a population exceeding 10 million; most megacities are now in Asia and Africa, growing rapidly due to rural-urban migration.'},
+        {n:'Informal Settlement', d:'Housing built illegally on land the occupier does not own, often lacking clean water, sanitation and security; also called shanty towns or slums.'},
+        {n:'Push-Pull Model', d:'Urbanisation is driven by push factors (poverty, lack of rural jobs) and pull factors (employment, services, social opportunity in cities).'},
+        {n:'Urban Regeneration', d:'Investment to improve deprived urban areas by rebuilding housing, creating jobs and improving infrastructure, e.g. London Docklands.'},
+      ]},
+      { name:'Development', knowledge:[
+        {n:'HDI',            d:'Human Development Index - a composite measure of a country\'s development using life expectancy, education and income per capita (0–1 scale).'},
+        {n:'Uneven Development', d:'The gap in wealth and wellbeing between and within countries; caused by colonial history, trade inequalities and governance.'},
+        {n:'Aid',            d:'Money, goods or expertise given to less developed countries; can be bilateral (government to government), multilateral (via UN) or NGO-led.'},
+        {n:'Fairtrade',      d:'A movement ensuring producers in developing countries receive fair prices and decent working conditions; helps address trade inequality.'},
+      ]},
+      { name:'Weather & Climate', knowledge:[
+        {n:'Precipitation',  d:'All forms of water falling from clouds to the ground, including rain, sleet, snow and hail.'},
+        {n:'Anticyclone',    d:'An area of high pressure characterised by descending air, calm clear weather, warm summers and cold frosty winters.'},
+        {n:'Depression',     d:'An area of low pressure with rising air, bringing cloudy, wet and windy conditions as warm and cold fronts pass through.'},
+        {n:'Microclimate',   d:'The climate of a small, specific area (e.g. a city, valley or forest) that differs from the surrounding regional climate.'},
+      ]},
+      { name:'Population', knowledge:[
+        {n:'Birth Rate',     d:'The number of live births per 1,000 people per year; falls as countries develop due to better healthcare, education and female empowerment.'},
+        {n:'Demographic Transition Model', d:'A model showing how birth and death rates change as a country develops through five stages, from high fluctuating rates to low stable rates.'},
+        {n:'Population Pyramid', d:'A bar chart showing the age-sex structure of a population; reveals whether a country is growing, stable or declining.'},
+        {n:'Ageing Population', d:'A population with a growing proportion of older people; caused by falling birth rates and rising life expectancy, creating care and economic challenges.'},
+      ]},
+      { name:'Globalisation', knowledge:[
+        {n:'Transnational Corporation', d:'A large company that operates in multiple countries; TNCs (e.g. Nike, Apple) relocate production to countries with cheaper labour and raw materials.'},
+        {n:'Interdependence', d:'The mutual reliance between countries for trade, resources and support; globalisation has made economies deeply interdependent.'},
+        {n:'Cultural Diffusion', d:'The spread of cultural elements (food, music, language, fashion) between societies, accelerated by globalisation and social media.'},
+        {n:'Trade Deficit',  d:'When the value of a country\'s imports exceeds its exports; persistent deficits can indicate economic vulnerability.'},
+      ]},
+      { name:'Natural Hazards', knowledge:[
+        {n:'Magnitude',      d:'The size or strength of a natural hazard, e.g. a 7.0 earthquake on the Richter scale or a Category 5 hurricane.'},
+        {n:'Vulnerability',  d:'How susceptible people and places are to harm from a hazard - increased by poverty, poor building standards and lack of warning systems.'},
+        {n:'Risk',           d:'The likelihood of a natural hazard causing harm; risk = hazard × vulnerability, reduced by preparedness and governance.'},
+        {n:'Mitigation',     d:'Actions taken to reduce the impact of a natural hazard, such as earthquake-resistant buildings, sea walls or early warning systems.'},
+      ]},
+    ]
+  },
+  { name:'Languages', color:'#CE93D8', dark:'#6A1B9A', size:22, orbitR:378, speed:0.17, angle:Math.PI*1.0,
+    topics:[
+      { name:'Verb Conjugation', knowledge:[
+        {n:'Infinitive',     d:'The base form of a verb before conjugation, e.g. "hablar" (to speak) in Spanish or "parler" (to speak) in French.'},
+        {n:'Stem',           d:'The part of the verb that remains after removing the infinitive ending; the stem usually stays constant during regular conjugation.'},
+        {n:'Regular Verb',   d:'A verb that follows a standard conjugation pattern with predictable endings, e.g. -ar verbs in Spanish (hablar → hablo, hablas...).'},
+        {n:'Irregular Verb', d:'A verb that does not follow standard patterns and must be learned separately, e.g. ser/ir in Spanish or être/avoir in French.'},
+      ]},
+      { name:'Past Tense', knowledge:[
+        {n:'Preterite',      d:'A past tense used for completed actions at a specific time, e.g. "I ate lunch at noon" - common in Spanish as the pretérito indefinido.'},
+        {n:'Imperfect',      d:'A past tense describing habitual or continuous past actions, e.g. "I used to eat" or "I was eating" - ongoing, not completed.'},
+        {n:'Auxiliary Verb', d:'A "helper" verb used to form compound tenses; in French and Spanish, "avoir/haber" (to have) is used to form the perfect past tense.'},
+        {n:'Participle',     d:'A verbal adjective; the past participle (e.g. eaten, spoken) is used with an auxiliary verb to form perfect tenses.'},
+      ]},
+      { name:'Opinion Phrases', knowledge:[
+        {n:'Justification',  d:'Explaining the reason for an opinion using connectives like "because", "since", "as a result of" - essential for A*–grade language.'},
+        {n:'Intensifiers',   d:'Words that strengthen or weaken an adjective, e.g. très (very), assez (quite), un peu (a little), vraiment (really).'},
+        {n:'Agreement',      d:'Phrases to express agreement with a viewpoint, e.g. Estoy de acuerdo (I agree), Je suis d\'accord (I agree).'},
+        {n:'Disagreement',   d:'Phrases to express a contrasting view, e.g. No estoy de acuerdo, Je ne pense pas que - showing analytical ability.'},
+      ]},
+      { name:'Grammar Rules', knowledge:[
+        {n:'Gender',         d:'In many languages, nouns are grammatically masculine or feminine, affecting adjective endings and the articles used.'},
+        {n:'Agreement',      d:'Adjectives must agree in gender and number with the noun they describe, e.g. un libro rojo / una mesa roja.'},
+        {n:'Negation',       d:'Forming negative sentences; in French ne...pas surrounds the verb; in Spanish no precedes the verb.'},
+        {n:'Preposition',    d:'A word showing the relationship between a noun and another element, e.g. à (at/to), de (of/from), en (in) - must often be memorised.'},
+      ]},
+      { name:'Vocabulary Building', knowledge:[
+        {n:'Cognate',        d:'A word in a foreign language that looks or sounds like an English word and shares the same meaning, e.g. "intelligent" in French/Spanish.'},
+        {n:'False Friend',   d:'A word that resembles an English word but has a different meaning, e.g. "embarrassada" in Spanish means pregnant, not embarrassed.'},
+        {n:'Word Families',  d:'Groups of words sharing the same root that can be adapted: adapt (verb) → adaptación (noun) → adaptable (adjective).'},
+        {n:'Synonym',        d:'A word with a similar meaning to another; knowing synonyms avoids repetition and improves vocabulary range, e.g. contento/feliz (happy).'},
+      ]},
+      { name:'Tenses Overview', knowledge:[
+        {n:'Present Tense',  d:'Used for habitual actions, current states and general truths; the most fundamental tense - must be mastered before others.'},
+        {n:'Future Tense',   d:'Expresses actions that will happen; can be formed with the future simple or the near future (going to) construction.'},
+        {n:'Conditional',    d:'Expresses what would happen under certain conditions; uses a conditional stem + imperfect endings, e.g. comería (I would eat).'},
+        {n:'Subjunctive',    d:'A mood (not a tense) used for doubt, emotion, wishes and hypotheticals; marks sophisticated use of the language at higher levels.'},
+      ]},
+      { name:'Listening Skills', knowledge:[
+        {n:'Inference',      d:'Working out meaning from context, tone and surrounding words when you do not understand every word - a key exam skill.'},
+        {n:'Intonation',     d:'The rise and fall of the voice that conveys meaning beyond the words themselves; questions often have a rising intonation.'},
+        {n:'Cognate Recognition', d:'Identifying cognates and near-cognates while listening helps decode unfamiliar vocabulary rapidly in real-time listening tasks.'},
+        {n:'Gist vs Detail', d:'Gist = understanding the overall topic; detail = identifying specific information. Different exam tasks target each of these.'},
+      ]},
+      { name:'Speaking Fluency', knowledge:[
+        {n:'Fluency',        d:'The ability to speak smoothly and naturally at a reasonable pace without excessive pausing, hesitation or repetition.'},
+        {n:'Accuracy',       d:'Using correct grammar, vocabulary and pronunciation; in MFL exams, both fluency and accuracy are assessed separately.'},
+        {n:'Spontaneity',    d:'The ability to respond immediately and appropriately to unexpected questions - a key marker of communicative competence.'},
+        {n:'Discourse Markers', d:'Words and phrases that structure spoken language, e.g. bien sûr, en primer lugar, par contre - they signal confident, organised speech.'},
+      ]},
+      { name:'Cultural Context', knowledge:[
+        {n:'Target Culture', d:'The culture of the country whose language is being studied; cultural knowledge enriches language use and demonstrates intercultural understanding.'},
+        {n:'Identity',       d:'Language is a key marker of cultural and personal identity; code-switching between languages can reflect bicultural identities.'},
+        {n:'Festival',       d:'Knowledge of major festivals (e.g. Día de los Muertos, La Fête Nationale) demonstrates cultural competence and enriches vocabulary.'},
+        {n:'Stereotype',     d:'An oversimplified image of a culture; critically evaluating stereotypes is part of developing intercultural competence.'},
+      ]},
+      { name:'Reading Comprehension', knowledge:[
+        {n:'Skimming',       d:'Reading quickly to get the overall gist or main idea of a text, without reading every word carefully.'},
+        {n:'Scanning',       d:'Reading selectively to find specific information (e.g. a name, date or figure) without reading the whole text.'},
+        {n:'Context Clues',  d:'Using surrounding words, sentences and images to deduce the meaning of unfamiliar vocabulary - an essential exam strategy.'},
+        {n:'Text Type',      d:'Recognising whether a text is formal or informal, and its genre (article, blog, email) shapes how you interpret its language.'},
+      ]},
+    ]
+  },
+  { name:'Art & Design', color:'#F48FB1', dark:'#AD1457', size:21, orbitR:130, speed:0.50, angle:Math.PI*1.2,
+    topics:[
+      { name:'Colour Theory', knowledge:[
+        {n:'Primary Colours', d:'Red, yellow and blue (in traditional mixing); colours from which all others are made but which cannot be created by mixing.'},
+        {n:'Complementary Colours', d:'Colours opposite each other on the colour wheel (e.g. red/green, blue/orange) that create maximum contrast when placed together.'},
+        {n:'Tint & Shade',   d:'A tint is a colour lightened by adding white; a shade is darkened by adding black - both alter tone while retaining the hue.'},
+        {n:'Hue',            d:'The pure, saturated colour as it appears on the colour wheel, before any white, black or grey is added.'},
+      ]},
+      { name:'Perspective', knowledge:[
+        {n:'Vanishing Point', d:'The point on the horizon where parallel lines appear to converge in a perspective drawing, creating the illusion of depth.'},
+        {n:'One-Point Perspective', d:'A drawing method with a single vanishing point on the horizon, used for objects facing the viewer directly, e.g. a road receding.'},
+        {n:'Foreshortening', d:'The technique of depicting an object or body as compressed in depth, so that it looks shorter or closer than it actually is.'},
+        {n:'Horizon Line',   d:'The line at the viewer\'s eye level in a perspective drawing; objects above this line appear to be above eye level.'},
+      ]},
+      { name:'Composition', knowledge:[
+        {n:'Rule of Thirds', d:'Dividing an image into a 3×3 grid and placing key subjects on the grid lines or intersections to create a balanced composition.'},
+        {n:'Focal Point',    d:'The main area of visual interest in a composition that the viewer\'s eye is drawn to; created by contrast, colour or placement.'},
+        {n:'Negative Space', d:'The empty space around and between subjects; skilled artists use negative space as a compositional element as important as positive space.'},
+        {n:'Balance',        d:'Symmetrical balance creates formal harmony; asymmetrical balance uses different elements of varying visual weight to create a dynamic composition.'},
+      ]},
+      { name:'Shading & Tone', knowledge:[
+        {n:'Value',          d:'The lightness or darkness of a colour or tone; a full tonal range from white to black gives a drawing depth and form.'},
+        {n:'Cross-Hatching', d:'A shading technique using overlapping sets of parallel lines at different angles to build up tonal density and texture.'},
+        {n:'Chiaroscuro',    d:'The use of strong contrast between light and dark in drawing or painting to model three-dimensional form; perfected by Leonardo and Caravaggio.'},
+        {n:'Blending',       d:'Smoothly transitioning between tones by smudging pencil, charcoal or paint; creates soft gradients that suggest curved surfaces.'},
+      ]},
+      { name:'Art History', knowledge:[
+        {n:'Renaissance',    d:'A 15th–16th century movement (Italy, then Europe) that revived classical Greek and Roman aesthetics; artists include Leonardo, Michelangelo and Raphael.'},
+        {n:'Impressionism',  d:'A 19th-century French movement capturing the fleeting effects of light and movement using loose brushwork; Monet, Renoir.'},
+        {n:'Modernism',      d:'An umbrella term for radical early 20th-century movements (Cubism, Expressionism, Surrealism) rejecting traditional forms.'},
+        {n:'Contemporary Art', d:'Art produced from the 1970s to the present, often conceptual, interdisciplinary and engaged with social and political issues.'},
+      ]},
+      { name:'Printmaking', knowledge:[
+        {n:'Relief Printing', d:'Ink is applied to a raised surface (the background is cut away); the image transfers to paper, e.g. woodcut, linocut.'},
+        {n:'Intaglio',       d:'The image is incised into a plate (etching, engraving); ink is pushed into the grooves and the surface wiped clean before printing.'},
+        {n:'Screen Printing', d:'A stencil technique pushing ink through a mesh screen onto the substrate; associated with Andy Warhol\'s pop art prints.'},
+        {n:'Monoprint',      d:'A printing technique that produces a single unique print rather than an edition; blurs the distinction between printmaking and painting.'},
+      ]},
+      { name:'Typography', knowledge:[
+        {n:'Font',           d:'A set of characters in a particular typeface design; fonts have weight (bold, light), style (italic) and size variations.'},
+        {n:'Serif vs Sans-Serif', d:'Serif fonts have small strokes at letter ends (e.g. Times New Roman) and are traditional; sans-serif fonts (e.g. Arial) are clean and modern.'},
+        {n:'Hierarchy',      d:'Using size, weight and spacing to indicate the relative importance of text elements: headline > subheading > body text.'},
+        {n:'Kerning',        d:'The adjustment of space between individual letter pairs to improve visual balance and readability.'},
+      ]},
+      { name:'Mixed Media', knowledge:[
+        {n:'Collage',        d:'Assembling different materials - paper, photographs, fabric - onto a surface; pioneered by Picasso and Braque in Cubism.'},
+        {n:'Texture',        d:'The surface quality of an artwork, either actual (tactile) or implied (visual illusion of texture created by mark-making).'},
+        {n:'Layering',       d:'Building up a composition by overlapping materials, colours or surfaces to create depth, complexity and visual interest.'},
+        {n:'Found Objects',  d:'Everyday objects incorporated into artwork; Duchamp\'s "readymades" challenged definitions of art by using unaltered found objects.'},
+      ]},
+      { name:'Portraiture', knowledge:[
+        {n:'Proportion',     d:'The eyes are halfway down the head; the nose is halfway between eyes and chin - understanding proportion is fundamental to life drawing.'},
+        {n:'Expression',     d:'Facial muscles (particularly around eyes and mouth) communicate emotion; capturing expression gives a portrait psychological depth.'},
+        {n:'Likeness',       d:'Achieving a recognisable resemblance to the subject through careful observation of individual facial features and their relationships.'},
+        {n:'Self-Portrait',  d:'A representation of the artist by themselves; from Rembrandt to Frida Kahlo, self-portraiture explores identity, ageing and self-perception.'},
+      ]},
+      { name:'Abstract Art', knowledge:[
+        {n:'Non-Representational', d:'Art that does not attempt to depict reality; it uses form, colour and line as its primary subjects rather than recognisable imagery.'},
+        {n:'Expressionism',  d:'Art movement prioritising emotional intensity over realistic depiction; colour and distortion are used to convey inner psychological states.'},
+        {n:'Abstraction Spectrum', d:'A continuum from representational art (depicting recognisable subjects) to pure abstraction (no reference to the visible world).'},
+        {n:'Form',           d:'The three-dimensional shape implied in a two-dimensional artwork; abstract artists often reduce subjects to essential forms and shapes.'},
+      ]},
+    ]
+  },
+  { name:'Music', color:'#FFF59D', dark:'#F9A825', size:24, orbitR:428, speed:0.15, angle:Math.PI*1.4,
+    topics:[
+      { name:'Rhythm & Metre', knowledge:[
+        {n:'Beat',           d:'The regular pulse underlying music that listeners naturally tap along to; tempo indicates how fast the beat moves.'},
+        {n:'Time Signature', d:'Written at the start of music (e.g. 4/4, 3/4); the top number shows beats per bar, the bottom shows the beat note value.'},
+        {n:'Syncopation',    d:'Placing accents on weak beats or between beats, creating a "off-the-beat" rhythmic effect; central to jazz, reggae and funk.'},
+        {n:'Polyrhythm',     d:'Two or more different rhythmic patterns played simultaneously; common in West African drumming and much popular music.'},
+      ]},
+      { name:'Melody', knowledge:[
+        {n:'Pitch',          d:'How high or low a musical note sounds, determined by frequency of vibration; written on the stave using note heads on different lines/spaces.'},
+        {n:'Scale',          d:'A sequence of notes in ascending or descending order; major scales sound bright, minor scales more melancholic.'},
+        {n:'Interval',       d:'The distance in pitch between two notes; intervals range from a unison (same note) to an octave (eight steps) and beyond.'},
+        {n:'Motif',          d:'A short, distinctive melodic or rhythmic idea that is developed throughout a piece, e.g. the opening four notes of Beethoven\'s Fifth.'},
+      ]},
+      { name:'Harmony', knowledge:[
+        {n:'Chord',          d:'Three or more notes played simultaneously; chords provide harmonic accompaniment and are built by stacking notes in thirds.'},
+        {n:'Triad',          d:'The most fundamental chord, built from a root note, a third and a fifth; major triads sound bright, minor triads darker.'},
+        {n:'Consonance',     d:'A combination of notes that sound stable, restful and resolved together, e.g. a perfect fifth or octave.'},
+        {n:'Dissonance',     d:'A combination of notes creating tension and instability, requiring resolution to consonance; used to create drama and emotion.'},
+      ]},
+      { name:'Music Theory', knowledge:[
+        {n:'Stave',          d:'The five horizontal lines on which music is written; notes are placed on lines and spaces, with ledger lines for notes beyond the stave.'},
+        {n:'Clef',           d:'A symbol at the start of the stave that defines which notes the lines represent; treble clef (high) and bass clef (low) are most common.'},
+        {n:'Key Signature',  d:'Sharps or flats written at the start of music indicating which key the piece is in, affecting which notes are sharpened or flattened.'},
+        {n:'Notation',       d:'The written system for representing music: notes show pitch (by position) and duration (by their shape - crotchet, quaver, etc.).'},
+      ]},
+      { name:'Composition', knowledge:[
+        {n:'Structure',      d:'The overall form of a piece: binary (AB), ternary (ABA), rondo (ABACADA), theme and variations, verse-chorus - structure shapes the listener\'s journey.'},
+        {n:'Development',    d:'Taking a melodic, harmonic or rhythmic idea and transforming it through repetition, variation, fragmentation or inversion.'},
+        {n:'Repetition',     d:'Repeating musical ideas creates unity, familiarity and memorability; too much without variation creates monotony.'},
+        {n:'Contrast',       d:'Juxtaposing different musical ideas (loud/quiet, fast/slow, high/low) to create variety, interest and dramatic effect.'},
+      ]},
+      { name:'Performance', knowledge:[
+        {n:'Articulation',   d:'How notes are played: staccato (short and detached), legato (smooth and connected), accent (emphasised) - articulation shapes expression.'},
+        {n:'Technique',      d:'The physical skills required to play an instrument accurately; technique is developed through regular, focused practice.'},
+        {n:'Interpretation', d:'The performer\'s individual decisions about tempo, dynamics and articulation that give a performance its unique character.'},
+        {n:'Ensemble',       d:'Performing music with others; ensemble playing requires listening, blending and adapting in real time to other performers.'},
+      ]},
+      { name:'World Music', knowledge:[
+        {n:'Pentatonic Scale', d:'A five-note scale (e.g. C D E G A) found across world music traditions from Chinese classical music to blues and folk music.'},
+        {n:'Improvisation',  d:'Creating music spontaneously in performance; central to jazz, blues and many non-Western traditions.'},
+        {n:'Heterophony',    d:'Multiple performers playing the same melody simultaneously with slight differences in ornamentation or timing; common in South-East Asian music.'},
+        {n:'Gamelan',        d:'An Indonesian percussion ensemble of bronze instruments (metallophones, gongs, xylophones); its layered texture is a key world music example.'},
+      ]},
+      { name:'Genre & Style', knowledge:[
+        {n:'Blues',          d:'A genre originating in African-American communities; characterised by blue notes, call-and-response and 12-bar chord progressions.'},
+        {n:'Minimalism',     d:'A 20th-century style using simple, gradually changing patterns through repetition; composers include Steve Reich and Philip Glass.'},
+        {n:'Baroque',        d:'Music of c.1600–1750 characterised by ornamentation, basso continuo and polyphonic counterpoint; composers include Bach and Handel.'},
+        {n:'Jazz',           d:'Developed in early 20th-century New Orleans, jazz features improvisation, swing rhythms, syncopation and complex harmonies.'},
+      ]},
+      { name:'Notation', knowledge:[
+        {n:'Crotchet',       d:'A note worth one beat in 4/4 time; the standard beat unit in most music notation (also called a quarter note).'},
+        {n:'Quaver',         d:'A note worth half a beat - half a crotchet; written with a flag or beam when grouped (also called an eighth note).'},
+        {n:'Rest',           d:'A symbol indicating silence for a specific duration; rests are as musically important as sounding notes.'},
+        {n:'Dot & Tie',      d:'A dot after a note adds half its value; a tie connects two notes of the same pitch, extending the first note\'s duration.'},
+      ]},
+      { name:'Dynamics & Tempo', knowledge:[
+        {n:'Piano / Forte',  d:'Italian dynamic markings: piano (p) = soft; forte (f) = loud; with gradations including pp (very soft) and ff (very loud).'},
+        {n:'Crescendo',      d:'A gradual increase in volume, written as a hairpin symbol opening outward (<); the opposite is diminuendo/decrescendo.'},
+        {n:'Tempo Markings', d:'Italian terms indicating speed: Largo (very slow), Andante (walking pace), Moderato, Allegro (fast), Presto (very fast).'},
+        {n:'Accelerando / Rallentando', d:'Accelerando (accel.) = gradually getting faster; rallentando (rall.) / ritardando (rit.) = gradually getting slower.'},
+      ]},
+    ]
+  },
+  { name:'Computing', color:'#80CBC4', dark:'#00695C', size:23, orbitR:218, speed:0.29, angle:Math.PI*1.6,
+    topics:[
+      { name:'Algorithms', knowledge:[
+        {n:'Pseudocode',     d:'An informal, language-independent description of an algorithm using plain English structured like code - easier to write and discuss than real code.'},
+        {n:'Flowchart',      d:'A diagram using standard shapes (oval=start/end, rectangle=process, diamond=decision, parallelogram=I/O) to map an algorithm\'s steps.'},
+        {n:'Sorting Algorithms', d:'Procedures for ordering data; Bubble sort (simple but slow O(n²)), Merge sort (efficient O(n log n)) - efficiency matters for large datasets.'},
+        {n:'Efficiency',     d:'Measured in Big-O notation (e.g. O(n), O(n²)); an efficient algorithm solves problems faster and with less memory as input size grows.'},
+      ]},
+      { name:'Programming', knowledge:[
+        {n:'Variable',       d:'A named memory location storing a value that can change during program execution; must have a name, a data type and a value.'},
+        {n:'Selection (If)',  d:'A conditional statement that executes different code depending on whether a condition is true or false: if...elif...else.'},
+        {n:'Iteration (Loop)', d:'Repeating a block of code: FOR loops repeat a fixed number of times; WHILE loops repeat while a condition is true.'},
+        {n:'Function/Procedure', d:'A named, reusable block of code that performs a specific task; functions return a value, procedures do not.'},
+      ]},
+      { name:'Data Structures', knowledge:[
+        {n:'Array',          d:'A fixed-size collection of elements of the same type stored in contiguous memory and accessed by index number (starting at 0).'},
+        {n:'List',           d:'An ordered, mutable collection; unlike arrays, lists can grow or shrink dynamically and often hold mixed data types.'},
+        {n:'Stack',          d:'A Last In, First Out (LIFO) structure; elements are pushed onto the top and popped from the top - like a stack of plates.'},
+        {n:'Dictionary',     d:'A collection of key-value pairs where values are accessed by their unique key rather than by index, e.g. {"name": "Alice"}.'},
+      ]},
+      { name:'Networks & Internet', knowledge:[
+        {n:'IP Address',     d:'A unique numerical label (e.g. 192.168.1.1) identifying every device on a network; IPv4 uses 32 bits, IPv6 uses 128 bits.'},
+        {n:'Protocol',       d:'A set of agreed rules for data communication; TCP/IP governs internet transmission, HTTP governs web browsing.'},
+        {n:'Packet Switching', d:'Data is broken into packets that travel independently across networks and are reassembled at the destination - efficient and robust.'},
+        {n:'Client-Server',  d:'A network model where clients (devices) request services from servers (powerful computers) that respond with the requested resource.'},
+      ]},
+      { name:'Cybersecurity', knowledge:[
+        {n:'Encryption',     d:'Converting data into an unreadable form using a key; only someone with the correct key can decrypt and read the original data.'},
+        {n:'Phishing',       d:'A social engineering attack using fraudulent emails or websites to trick users into revealing passwords or financial information.'},
+        {n:'Firewall',       d:'Hardware or software that monitors and controls incoming and outgoing network traffic based on defined security rules.'},
+        {n:'Authentication', d:'Verifying a user\'s identity using something they know (password), have (token) or are (biometrics) - multi-factor uses two or more.'},
+      ]},
+      { name:'Databases', knowledge:[
+        {n:'Table',          d:'A collection of data organised into rows (records) and columns (fields); each row represents one entity (e.g. one student).'},
+        {n:'Primary Key',    d:'A field (or combination of fields) that uniquely identifies each record in a table; no two records can share the same primary key.'},
+        {n:'SQL Query',      d:'Structured Query Language command used to retrieve or manipulate database data; SELECT * FROM table WHERE condition.'},
+        {n:'Normalisation',  d:'Organising a database to reduce data redundancy and improve integrity by splitting data into related tables linked by foreign keys.'},
+      ]},
+      { name:'Boolean Logic', knowledge:[
+        {n:'AND Gate',       d:'A logic gate outputting 1 only when ALL inputs are 1; models logical conjunction - both conditions must be true.'},
+        {n:'OR Gate',        d:'A logic gate outputting 1 when AT LEAST ONE input is 1; models logical disjunction - at least one condition is true.'},
+        {n:'NOT Gate',       d:'An inverter with one input: output is the opposite of the input - 0 becomes 1 and 1 becomes 0.'},
+        {n:'Truth Table',    d:'A table listing all possible input combinations for a Boolean expression and the corresponding outputs.'},
+      ]},
+      { name:'Computer Architecture', knowledge:[
+        {n:'CPU',            d:'Central Processing Unit - the "brain" of the computer that executes instructions; speed measured in GHz, quality by number of cores.'},
+        {n:'RAM',            d:'Random Access Memory - fast, volatile (temporary) memory holding data the CPU is currently using; lost when powered off.'},
+        {n:'ROM',            d:'Read-Only Memory - non-volatile, permanent memory storing startup instructions (BIOS/UEFI); cannot normally be written to.'},
+        {n:'The Fetch-Execute Cycle', d:'The CPU continuously fetches an instruction from memory, decodes it, then executes it - the fundamental cycle of all computing.'},
+      ]},
+      { name:'Computational Thinking', knowledge:[
+        {n:'Decomposition',  d:'Breaking a complex problem into smaller, more manageable sub-problems that can each be solved independently.'},
+        {n:'Abstraction',    d:'Removing unnecessary detail to focus on what is important for solving the problem; a key skill for modelling real-world situations.'},
+        {n:'Pattern Recognition', d:'Identifying similarities, trends or repeated structures within or between problems, allowing existing solutions to be reused.'},
+        {n:'Algorithm Design', d:'Planning a step-by-step solution before coding; good design considers correctness, efficiency and readability.'},
+      ]},
+      { name:'Binary & Hexadecimal', knowledge:[
+        {n:'Binary',         d:'Base-2 number system using only 0 and 1; all data in computers is ultimately stored and processed in binary.'},
+        {n:'Hexadecimal',    d:'Base-16 system using digits 0–9 and A–F; used as a compact representation of binary (1 hex digit = 4 binary bits).'},
+        {n:'ASCII',          d:'American Standard Code for Information Interchange - a character encoding system assigning a number to each letter, digit and symbol.'},
+        {n:'Overflow',       d:'When a calculation produces a result too large to be stored in the available number of bits, causing incorrect results.'},
+      ]},
+    ]
+  },
+  { name:'R.E. & Ethics', color:'#FFAB91', dark:'#D84315', size:22, orbitR:310, speed:0.22, angle:Math.PI*1.8,
+    topics:[
+      { name:'Christianity', knowledge:[
+        {n:'Trinity',        d:'The Christian doctrine that God exists as three persons - Father, Son (Jesus Christ) and Holy Spirit - who are one in being.'},
+        {n:'Resurrection',   d:'The Christian belief that Jesus rose bodily from the dead on the third day after crucifixion, the cornerstone of Christian faith.'},
+        {n:'Salvation',      d:'Deliverance from sin and its consequences; Christians believe salvation is achieved through faith in Jesus Christ\'s atoning death.'},
+        {n:'Scripture',      d:'The Bible - consisting of the Old Testament (Hebrew scriptures) and New Testament - is the sacred text of Christianity and its authority for belief.'},
+      ]},
+      { name:'Islam', knowledge:[
+        {n:'Tawhid',         d:'The absolute oneness of Allah (God); the most fundamental belief in Islam - Allah is unique, without partners or equals.'},
+        {n:'Five Pillars',   d:'The five acts of worship central to Muslim life: Shahada (declaration of faith), Salah (prayer), Zakah (charity), Sawm (fasting), Hajj (pilgrimage).'},
+        {n:"Qur'an",         d:'The holy book of Islam, believed by Muslims to be the literal word of Allah as revealed to the Prophet Muhammad through the angel Jibril.'},
+        {n:'Ummah',          d:'The global community of Muslim believers; the concept of a worldwide brotherhood and sisterhood transcending national and ethnic boundaries.'},
+      ]},
+      { name:'Judaism', knowledge:[
+        {n:'Torah',          d:'The first five books of the Hebrew Bible (Genesis–Deuteronomy); central to Jewish faith, law and practice.'},
+        {n:'Covenant',       d:'A binding agreement between God and the Jewish people, established with Abraham; central to Jewish identity and responsibility.'},
+        {n:'Shabbat',        d:'The Jewish day of rest from sunset Friday to nightfall Saturday, commemorating God\'s rest after creation; observed through prayer, family and rest.'},
+        {n:'Talmud',         d:'A central text of Rabbinic Judaism containing rabbinic discussions and interpretations of the Torah; guides Jewish law and practice.'},
+      ]},
+      { name:'Buddhism', knowledge:[
+        {n:'Four Noble Truths', d:'The Buddha\'s diagnosis of human existence: (1) suffering exists; (2) it arises from craving; (3) it can cease; (4) the Eightfold Path leads to its end.'},
+        {n:'Eightfold Path', d:'The Buddha\'s prescription for ending suffering: right view, intention, speech, action, livelihood, effort, mindfulness and concentration.'},
+        {n:'Karma',          d:'The law of moral causation: intentional actions shape future experience in this and future lives - good actions generate positive karma.'},
+        {n:'Nirvana',        d:'The liberation from suffering and the cycle of rebirth (samsara); the ultimate goal of Buddhist practice - a state of peace and freedom.'},
+      ]},
+      { name:'Philosophy of Religion', knowledge:[
+        {n:'Ontological Argument', d:'Anselm\'s argument that God must exist because God is "that than which nothing greater can be conceived" - existence is a perfection.'},
+        {n:'Problem of Evil', d:'If God is omnipotent, omniscient and omnibenevolent, why does evil exist? A key challenge to traditional theism answered by theodicies.'},
+        {n:'Free Will',      d:'The capacity to choose between alternatives; some argue God gave humans free will, explaining evil - others question whether free will is compatible with God\'s foreknowledge.'},
+        {n:'Cosmological Argument', d:'The argument that the universe must have a first cause (God) - everything that exists was caused by something else; the cause of all causes must be uncaused.'},
+      ]},
+      { name:'Ethics & Morality', knowledge:[
+        {n:'Utilitarianism', d:'The ethical theory (Bentham, Mill) that the right action is the one that produces the greatest happiness for the greatest number.'},
+        {n:'Kantian Ethics', d:'Kant\'s duty-based ethics; the Categorical Imperative: act only according to a principle you could will to be a universal law.'},
+        {n:'Virtue Ethics',  d:'Aristotle\'s approach: focus on developing virtuous character (courage, honesty, justice) rather than following rules or calculating consequences.'},
+        {n:'Sanctity of Life', d:'The belief (particularly in religious ethics) that human life is sacred and inherently valuable - relevant to debates on abortion and euthanasia.'},
+      ]},
+      { name:'Belief & Practice', knowledge:[
+        {n:'Worship',        d:'Expressions of reverence and adoration towards God or the divine; can be private or communal, liturgical or informal.'},
+        {n:'Ritual',         d:'A prescribed ceremonial act with symbolic significance; rituals mark transitions, reinforce identity and connect believers to tradition.'},
+        {n:'Prayer',         d:'Communication with God or the divine; can be formal (liturgical) or informal, petitionary, confessional, thankful or contemplative.'},
+        {n:'Pilgrimage',     d:'A journey to a sacred place for religious reasons, e.g. Muslims to Mecca (Hajj), Christians to Lourdes, Hindus to Varanasi.'},
+      ]},
+      { name:'Sacred Texts', knowledge:[
+        {n:'Revelation',     d:'The disclosure of God\'s nature and will to humanity; texts may be seen as directly revealed (propositional) or inspired (non-propositional).'},
+        {n:'Authority',      d:'The degree to which a text is accepted as binding on belief and practice; different traditions treat texts with varying levels of authority.'},
+        {n:'Interpretation', d:'Texts are never read in isolation - hermeneutics (the study of interpretation) examines how context, tradition and culture shape meaning.'},
+        {n:'Canon',          d:'The official collection of texts accepted as authoritative within a religious tradition; different traditions have different canons.'},
+      ]},
+      { name:'Rites of Passage', knowledge:[
+        {n:'Birth Rites',    d:'Ceremonies welcoming a child into a religious community, e.g. Christian Baptism, Jewish Brit Milah, Muslim Aqiqah.'},
+        {n:'Initiation',     d:'Ceremonies marking the transition to adult religious responsibility, e.g. Christian Confirmation, Jewish Bar/Bat Mitzvah, Hindu Upanayana.'},
+        {n:'Marriage',       d:'A religious ceremony solemnising a union; most faiths have distinct marriage rites with symbolic elements reflecting their beliefs.'},
+        {n:'Death Rites',    d:'Ceremonies surrounding death and disposal of the body reflecting beliefs about afterlife; e.g. Christian burial, Hindu cremation, Jewish Shiva.'},
+      ]},
+      { name:'Social Justice', knowledge:[
+        {n:'Poverty',        d:'Most major religions consider care for the poor a religious duty; teachings on wealth and poverty shape faith-based responses to inequality.'},
+        {n:'Equality',       d:'The principle that all people have equal worth and should be treated fairly; grounded in religious doctrines of human dignity and creation.'},
+        {n:'Prejudice',      d:'Preconceived opinion based on characteristics like race, gender or religion; most religious traditions explicitly condemn prejudice.'},
+        {n:'Human Rights',   d:'Universal rights belonging to all people regardless of nationality, religion or status; the 1948 Universal Declaration lists 30 fundamental rights.'},
+      ]},
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS & RESIZE
+// ═══════════════════════════════════════════════════════════════
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const FONT = 'Questrial, Calibri, "Trebuchet MS", Arial, sans-serif';
+let W, H, CX, CY;
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  CX = W / 2; CY = H / 2;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ═══════════════════════════════════════════════════════════════
+// STARS - rich, varied background
+// ═══════════════════════════════════════════════════════════════
+const STAR_COLORS = ['#ffffff','#ffffff','#ffffff','#e8f0ff','#e8f0ff','#fff5c0','#ffddaa','#c8d8ff'];
+const BG_STARS = Array.from({length:600}, () => ({
+  x: Math.random() * 4000 - 2000,
+  y: Math.random() * 4000 - 2000,
+  r: Math.random() < 0.8 ? Math.random() * 0.9 + 0.2 : Math.random() * 1.8 + 0.8,
+  color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+  phase: Math.random() * Math.PI * 2,
+  twinkleSpd: Math.random() * 0.015 + 0.003,
+}));
+
+// ═══════════════════════════════════════════════════════════════
+// CAMERA
+// ═══════════════════════════════════════════════════════════════
+let camX = 0, camY = 0, camZoom = 1;
+let tgtX = 0, tgtY = 0, tgtZoom = 1;
+const CAM_LERP = 0.075;
+
+function worldToScreen(wx, wy) {
+  return { x: (wx - camX) * camZoom + CX, y: (wy - camY) * camZoom + CY };
+}
+function screenToWorld(sx, sy) {
+  return { x: (sx - CX) / camZoom + camX, y: (sy - CY) / camZoom + camY };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let level = 0;       // 0=overview, 1=subject, 2=topic
+let focusSub = null; // subject index
+let focusTopic = null; // { si, ti }
+let frozenSubAngle = 0;
+let frozenTopAngle = 0;
+
+// Orbit angles (all in world space, updated each frame when active)
+const pAngles = S.map(s => s.angle);
+
+// Topic orbit angles: [subjectIdx][topicIdx]
+const tAngles = S.map(s => s.topics.map((_, j) =>
+  j < 5 ? (j / 5) * Math.PI * 2 : ((j-5)/5)*Math.PI*2 + Math.PI/5
+));
+const tSpeeds = S.map(s => s.topics.map((_, j) =>
+  (j % 2 === 0 ? 0.40 : -0.35) * (0.75 + Math.random() * 0.5)
+));
+
+// Knowledge orbit angles: [si][ti][ki]
+const kAngles = S.map((s, si) => s.topics.map((t, ti) =>
+  t.knowledge.map((_, ki) => (ki / t.knowledge.length) * Math.PI * 2)
+));
+const kSpeeds = S.map((s, si) => s.topics.map((t, ti) =>
+  // I reduced 0.55 to 0.15 and -0.48 to -0.12
+  t.knowledge.map((_, ki) => (ki % 2 === 0 ? 0.15 : -0.12) * (0.8 + Math.random() * 0.5))
+));
+
+const TOPIC_RI = 82;  // inner ring world radius for topics
+const TOPIC_RO = 135; // outer ring
+const KNOW_R   = 68;  // knowledge orbit radius
+
+// Computed world positions (updated each frame)
+let subPos = S.map(() => ({x:0,y:0}));
+let topPos = S.map((s,si) => s.topics.map(() => ({x:0,y:0})));
+let knwPos = S.map((s,si) => s.topics.map((t,ti) => t.knowledge.map(() => ({x:0,y:0}))));
+
+// ═══════════════════════════════════════════════════════════════
+// ALPHA DISPLAY VALUES (smooth transitions)
+// ═══════════════════════════════════════════════════════════════
+let dispSubAlpha = 1, tgtSubAlpha = 1;
+let dispTopAlpha = 0, tgtTopAlpha = 0;
+let dispKnwAlpha = 0, tgtKnwAlpha = 0;
+
+function setAlphaTargets() {
+  if (level === 0) { tgtSubAlpha=1; tgtTopAlpha=0; tgtKnwAlpha=0; }
+  if (level === 1) { tgtSubAlpha=0.25; tgtTopAlpha=1; tgtKnwAlpha=0; }
+  if (level === 2) { tgtSubAlpha=0.08; tgtTopAlpha=0.25; tgtKnwAlpha=1; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MOUSE / INTERACTION
+// ═══════════════════════════════════════════════════════════════
+const mouse = {x:0, y:0};
+let isDragging = false, hasDragged = false;
+let dragSX=0, dragSY=0, dragCX=0, dragCY=0;
+let hoveredKnowledge = null; // {si,ti,ki}
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const factor = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const wm = screenToWorld(e.clientX, e.clientY);
+  tgtZoom = Math.max(0.35, Math.min(25, tgtZoom * factor));
+  tgtX = wm.x - (e.clientX - CX) / tgtZoom;
+  tgtY = wm.y - (e.clientY - CY) / tgtZoom;
+}, { passive: false });
+
+canvas.addEventListener('mousedown', e => {
+  isDragging = true; hasDragged = false;
+  dragSX = e.clientX; dragSY = e.clientY;
+  dragCX = tgtX; dragCY = tgtY;
+});
+canvas.addEventListener('mousemove', e => {
+  mouse.x = e.clientX; mouse.y = e.clientY;
+  if (isDragging) {
+    const dx = e.clientX - dragSX, dy = e.clientY - dragSY;
+    if (Math.hypot(dx,dy) > 4) hasDragged = true;
+    tgtX = dragCX - dx / camZoom;
+    tgtY = dragCY - dy / camZoom;
+  }
+  updateHover();
+});
+canvas.addEventListener('mouseup', e => {
+  if (!hasDragged) handleClick(e.clientX, e.clientY);
+  isDragging = false;
+});
+canvas.addEventListener('mouseleave', () => { isDragging = false; });
+
+function updateHover() {
+  hoveredKnowledge = null;
+  canvas.style.cursor = 'default';
+  if (level === 2 && focusTopic !== null) {
+    const {si, ti} = focusTopic;
+    const t = S[si].topics[ti];
+    for (let ki = 0; ki < t.knowledge.length; ki++) {
+      const p = knwPos[si][ti][ki];
+      const sc = worldToScreen(p.x, p.y);
+      const screenR = 9 * camZoom;
+      if (Math.hypot(mouse.x - sc.x, mouse.y - sc.y) < Math.max(screenR * 1.6, 16)) {
+        hoveredKnowledge = {si, ti, ki};
+        canvas.style.cursor = 'pointer';
+        break;
+      }
+    }
+  }
+  // Update knowledge card
+  const kcard = document.getElementById('kcard');
+  if (hoveredKnowledge) {
+    const {si,ti,ki} = hoveredKnowledge;
+    const k = S[si].topics[ti].knowledge[ki];
+    document.getElementById('kcard-name').textContent = k.n;
+    document.getElementById('kcard-name').style.color = S[si].color;
+    document.getElementById('kcard-desc').textContent = k.d;
+    kcard.classList.add('visible');
+    kcard.style.left = (mouse.x + 16) + 'px';
+    kcard.style.top  = (mouse.y - 10) + 'px';
+    kcard.style.borderColor = S[si].color + '50';
+  } else {
+    kcard.classList.remove('visible');
+  }
+}
+
+function handleClick(mx, my) {
+  const w = screenToWorld(mx, my);
+
+  // Level 2: clicking knowledge shows desc (hover does it), click on topic planet to go back to L1
+  if (level === 2 && focusTopic !== null) {
+    const {si, ti} = focusTopic;
+    const tp = topPos[si][ti];
+    // If clicked the central topic planet, go back to level 1
+    const screenR = S[si].size * 1.8 * camZoom;
+    const sc = worldToScreen(tp.x, tp.y);
+    if (Math.hypot(mx - sc.x, my - sc.y) < screenR) { enterLevel1(si); return; }
+  }
+
+  // Level 1: clicking a topic moon zooms into it
+  if (level >= 1 && focusSub !== null) {
+    const si = focusSub;
+    const s = S[si];
+    for (let ti = 0; ti < s.topics.length; ti++) {
+      const p = topPos[si][ti];
+      const sc = worldToScreen(p.x, p.y);
+      const screenR = 14 * camZoom;
+      if (Math.hypot(mx - sc.x, my - sc.y) < Math.max(screenR, 14)) {
+        enterLevel2(si, ti); return;
+      }
+    }
+    // If clicked the central subject planet, go back to level 0
+    const sp = subPos[si];
+    const ssc = worldToScreen(sp.x, sp.y);
+    if (Math.hypot(mx - ssc.x, my - ssc.y) < s.size * 2 * camZoom) {
+      enterLevel0(); return;
+    }
+  }
+
+  // Level 0: clicking a subject zooms into it
+  for (let si = 0; si < S.length; si++) {
+    const s = S[si];
+    const p = subPos[si];
+    const sc = worldToScreen(p.x, p.y);
+    const screenR = s.size * camZoom;
+    if (Math.hypot(mx - sc.x, my - sc.y) < Math.max(screenR * 1.5, 14)) {
+      enterLevel1(si); return;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE TRANSITIONS
+// ═══════════════════════════════════════════════════════════════
+const backBtn = document.getElementById('back-btn');
+const breadcrumb = document.getElementById('breadcrumb');
+
+function enterLevel0() {
+  level = 0; focusSub = null; focusTopic = null;
+  tgtX = 0; tgtY = 0; tgtZoom = 1;
+  setAlphaTargets();
+  backBtn.classList.remove('visible');
+  breadcrumb.textContent = 'Click a subject to explore · Scroll to zoom · Drag to pan';
+  hoveredKnowledge = null;
+  document.getElementById('kcard').classList.remove('visible');
+}
+
+function enterLevel1(si) {
+  level = 1; focusSub = si; focusTopic = null;
+  frozenSubAngle = pAngles[si];
+  const wx = Math.cos(frozenSubAngle) * S[si].orbitR;
+  const wy = Math.sin(frozenSubAngle) * S[si].orbitR;
+  tgtX = wx; tgtY = wy; tgtZoom = 3.2;
+  setAlphaTargets();
+  backBtn.textContent = '← Overview';
+  backBtn.classList.add('visible');
+  breadcrumb.textContent = S[si].name + ' - click a topic to explore';
+  hoveredKnowledge = null;
+  document.getElementById('kcard').classList.remove('visible');
+}
+
+function enterLevel2(si, ti) {
+  level = 2; focusTopic = {si, ti};
+  frozenTopAngle = tAngles[si][ti];
+  const sx = Math.cos(frozenSubAngle) * S[si].orbitR;
+  const sy = Math.sin(frozenSubAngle) * S[si].orbitR;
+  const oR = ti < 5 ? TOPIC_RI : TOPIC_RO;
+  const wx = sx + Math.cos(frozenTopAngle) * oR;
+  const wy = sy + Math.sin(frozenTopAngle) * oR;
+  tgtX = wx; tgtY = wy; tgtZoom = 7;
+  setAlphaTargets();
+  backBtn.textContent = '← ' + S[si].name;
+  backBtn.classList.add('visible');
+  breadcrumb.textContent = S[si].name + ' › ' + S[si].topics[ti].name + ' - hover over knowledge to learn more';
+  document.getElementById('kcard').classList.remove('visible');
+}
+
+backBtn.addEventListener('click', () => {
+  if (level === 2) { enterLevel1(focusTopic.si); }
+  else if (level === 1) { enterLevel0(); }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+function eio(t) { return t<0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+function lerp(a,b,t) { return a + (b-a)*t; }
+function hexRgba(hex, a) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+function lighten(hex, amt) {
+  return `rgb(${Math.min(255,parseInt(hex.slice(1,3),16)+Math.round(255*amt))},${Math.min(255,parseInt(hex.slice(3,5),16)+Math.round(255*amt))},${Math.min(255,parseInt(hex.slice(5,7),16)+Math.round(255*amt))})`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW HELPERS
+// ═══════════════════════════════════════════════════════════════
+function drawOrbitRing(wx, wy, r, color, alpha) {
+  if (alpha < 0.01) return;
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 0.8 / camZoom;
+  ctx.setLineDash([3/camZoom, 9/camZoom]);
+  ctx.beginPath(); ctx.arc(wx, wy, r, 0, Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.globalAlpha = 1;
+}
+
+function drawGlowCircle(wx, wy, r, color, alpha, glowing) {
+  if (alpha < 0.01) return;
+  ctx.globalAlpha = alpha;
+  const gR = r * (glowing ? 2.8 : 2.0);
+  const halo = ctx.createRadialGradient(wx,wy,r*0.3,wx,wy,gR);
+  halo.addColorStop(0, hexRgba(color, glowing?0.5:0.28));
+  halo.addColorStop(1, hexRgba(color, 0));
+  ctx.fillStyle = halo;
+  ctx.beginPath(); ctx.arc(wx,wy,gR,0,Math.PI*2); ctx.fill();
+  const body = ctx.createRadialGradient(wx-r*0.3,wy-r*0.3,r*0.05,wx,wy,r);
+  body.addColorStop(0, lighten(color, 0.55));
+  body.addColorStop(0.4, color);
+  body.addColorStop(1, '#111');
+  ctx.fillStyle = body;
+  ctx.beginPath(); ctx.arc(wx,wy,r,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.22)';
+  ctx.beginPath(); ctx.arc(wx-r*0.27,wy-r*0.28,r*0.3,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+function drawLabel(wx, wy, text, yOffset, fontSize, color, alpha, bold) {
+  if (alpha < 0.02) return;
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  ctx.font = `${bold?'bold ':''}${fontSize}px ${FONT}`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillText(text, wx, wy + yOffset);
+  ctx.globalAlpha = 1;
+}
+
+function drawSun(alpha) {
+  const pulse = 1 + 0.05 * Math.sin(time * 1.6);
+  ctx.globalAlpha = alpha;
+  // KGA gold corona
+  const corona = ctx.createRadialGradient(0,0,0,0,0,100*pulse);
+  corona.addColorStop(0,'rgba(253,185,80,0.28)'); corona.addColorStop(0.4,'rgba(232,160,32,0.12)');
+  corona.addColorStop(0.75,'rgba(23,84,98,0.06)'); corona.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = corona; ctx.beginPath(); ctx.arc(0,0,100*pulse,0,Math.PI*2); ctx.fill();
+  const outer = ctx.createRadialGradient(0,0,0,0,0,72*pulse);
+  outer.addColorStop(0,'rgba(255,240,180,0.92)'); outer.addColorStop(0.35,'rgba(253,185,80,0.7)');
+  outer.addColorStop(0.65,'rgba(232,160,32,0.28)'); outer.addColorStop(1,'rgba(23,84,98,0)');
+  ctx.fillStyle = outer; ctx.beginPath(); ctx.arc(0,0,72*pulse,0,Math.PI*2); ctx.fill();
+  const body = ctx.createRadialGradient(-7,-8,2,0,0,36);
+  body.addColorStop(0,'#FFFDE7'); body.addColorStop(0.25,'#fdb950'); body.addColorStop(0.65,'#e8a020'); body.addColorStop(1,'#175462');
+  ctx.fillStyle = body; ctx.beginPath(); ctx.arc(0,0,36,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(2,14,30,0.75)'; ctx.font = `bold 11px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('YOU',0,1);
+  ctx.globalAlpha = 1;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MAIN LOOP
+// ═══════════════════════════════════════════════════════════════
+let time = 0, lastTS = null;
+
+function loop(ts) {
+  if (!lastTS) lastTS = ts;
+  const dt = Math.min((ts - lastTS)/1000, 0.05);
+  lastTS = ts; time += dt;
+
+  // Smooth camera
+  camX += (tgtX - camX) * CAM_LERP; camY += (tgtY - camY) * CAM_LERP;
+  camZoom += (tgtZoom - camZoom) * CAM_LERP;
+
+  // Smooth alphas
+  dispSubAlpha += (tgtSubAlpha - dispSubAlpha) * 0.06;
+  dispTopAlpha += (tgtTopAlpha - dispTopAlpha) * 0.06;
+  dispKnwAlpha += (tgtKnwAlpha - dispKnwAlpha) * 0.06;
+
+  // Update orbit angles
+  S.forEach((s, si) => {
+    if (level === 0 || si !== focusSub) pAngles[si] += s.speed * dt;
+    else pAngles[si] = frozenSubAngle; // freeze focused subject
+
+    s.topics.forEach((t, ti) => {
+      if (level < 2 || focusTopic === null || ti !== focusTopic.ti || si !== focusTopic.si)
+        tAngles[si][ti] += tSpeeds[si][ti] * dt;
+      else tAngles[si][ti] = frozenTopAngle;
+
+      t.knowledge.forEach((k, ki) => { kAngles[si][ti][ki] += kSpeeds[si][ti][ki] * dt; });
+    });
+  });
+
+  // Compute world positions
+  S.forEach((s, si) => {
+    subPos[si] = { x: Math.cos(pAngles[si])*s.orbitR, y: Math.sin(pAngles[si])*s.orbitR };
+    s.topics.forEach((t, ti) => {
+      const oR = ti < 5 ? TOPIC_RI : TOPIC_RO;
+      topPos[si][ti] = {
+        x: subPos[si].x + Math.cos(tAngles[si][ti])*oR,
+        y: subPos[si].y + Math.sin(tAngles[si][ti])*oR
+      };
+      t.knowledge.forEach((k, ki) => {
+        knwPos[si][ti][ki] = {
+          x: topPos[si][ti].x + Math.cos(kAngles[si][ti][ki])*KNOW_R,
+          y: topPos[si][ti].y + Math.sin(kAngles[si][ti][ki])*KNOW_R
+        };
+      });
+    });
+  });
+
+  // ── DRAW ──
+  ctx.fillStyle = '#020e18'; ctx.fillRect(0,0,W,H);
+
+  // Nebula - KGA teal (#175462) and navy (#172f62) tones
+  const n1=ctx.createRadialGradient(CX*0.35,CY*0.45,0,CX*0.35,CY*0.45,380);
+  n1.addColorStop(0,'rgba(23,84,98,0.14)'); n1.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=n1; ctx.fillRect(0,0,W,H);
+  const n2=ctx.createRadialGradient(CX*1.7,CY*1.4,0,CX*1.7,CY*1.4,440);
+  n2.addColorStop(0,'rgba(23,47,98,0.16)'); n2.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=n2; ctx.fillRect(0,0,W,H);
+  const n3=ctx.createRadialGradient(CX*0.1,CY*1.7,0,CX*0.1,CY*1.7,320);
+  n3.addColorStop(0,'rgba(23,84,98,0.10)'); n3.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=n3; ctx.fillRect(0,0,W,H);
+  // Subtle gold centre glow
+  const n4=ctx.createRadialGradient(CX,CY,0,CX,CY,180);
+  n4.addColorStop(0,'rgba(253,185,80,0.04)'); n4.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=n4; ctx.fillRect(0,0,W,H);
+
+  // Stars (screen space for performance)
+  BG_STARS.forEach(star => {
+    const alpha = 0.3 + 0.7*(0.5 + 0.5*Math.sin(star.phase + time*star.twinkleSpd*60));
+    ctx.globalAlpha = alpha * 0.9;
+    ctx.fillStyle = star.color;
+    ctx.beginPath();
+    ctx.arc(CX + star.x * (1 + camZoom*0.03), CY + star.y * (1 + camZoom*0.03), star.r, 0, Math.PI*2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // ── WORLD SPACE ──
+  ctx.save();
+  ctx.translate(CX, CY);
+  ctx.scale(camZoom, camZoom);
+  ctx.translate(-camX, -camY);
+
+  // Sun orbit rings (very subtle)
+  S.forEach(s => drawOrbitRing(0, 0, s.orbitR, s.color, dispSubAlpha * 0.18));
+
+  // Sun
+  drawSun(dispSubAlpha + dispTopAlpha * 0.3);
+
+  // Subject planets
+  S.forEach((s, si) => {
+    const p = subPos[si];
+    const isFocused = (level >= 1 && si === focusSub);
+    const alpha = isFocused ? 1 : dispSubAlpha;
+
+    drawGlowCircle(p.x, p.y, s.size, s.color, alpha, false);
+
+    // Label only when reasonably visible
+    if (alpha > 0.05) {
+      drawLabel(p.x, p.y, s.name, s.size + 5/camZoom, 13/camZoom, 'rgba(255,255,255,0.85)', alpha, false);
+    }
+
+    // Topics for focused subject
+    if (isFocused && dispTopAlpha > 0.02) {
+      // Topic orbit rings
+      drawOrbitRing(p.x, p.y, TOPIC_RI, s.color, dispTopAlpha * 0.25);
+      drawOrbitRing(p.x, p.y, TOPIC_RO, s.color, dispTopAlpha * 0.25);
+
+      s.topics.forEach((t, ti) => {
+        const tp = topPos[si][ti];
+        const isFocTop = (level >= 2 && focusTopic && focusTopic.si===si && focusTopic.ti===ti);
+        const tAlpha = isFocTop ? 1 : dispTopAlpha;
+
+        drawGlowCircle(tp.x, tp.y, 15, s.color, tAlpha, false);
+        if (tAlpha > 0.05) {
+          drawLabel(tp.x, tp.y, t.name, 17/camZoom, 12/camZoom, s.color, tAlpha, false);
+        }
+
+        // Knowledge for focused topic
+        if (isFocTop && dispKnwAlpha > 0.02) {
+          drawOrbitRing(tp.x, tp.y, KNOW_R, s.color, dispKnwAlpha * 0.3);
+
+          t.knowledge.forEach((k, ki) => {
+            const kp = knwPos[si][ti][ki];
+            const isHov = hoveredKnowledge && hoveredKnowledge.si===si && hoveredKnowledge.ti===ti && hoveredKnowledge.ki===ki;
+            const kr = isHov ? 11 : 9;
+            drawGlowCircle(kp.x, kp.y, kr, s.color, dispKnwAlpha, isHov);
+            if (dispKnwAlpha > 0.1) {
+              drawLabel(kp.x, kp.y, k.n, (kr+4)/camZoom, 11/camZoom, isHov?'#FFFFFF':'rgba(255,255,255,0.72)', dispKnwAlpha, isHov);
+            }
+          });
+        }
+      });
+    }
+  });
+
+  ctx.restore();
+
+  requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+
+// ═══════════════════════════════════════════════════════════════
+// LOADING SCREEN
+// ═══════════════════════════════════════════════════════════════
+let loadingDone = false;
+function endLoading() {
+  if (loadingDone) return;
+  loadingDone = true;
+  const el = document.getElementById('loading');
+  el.classList.add('fade-out');
+  setTimeout(() => { el.style.display = 'none'; }, 1900);
+}
+// Auto-end after crawl completes (~58s) or let user skip
+setTimeout(endLoading, 62000);
+</script>
+</body>
+</html>
