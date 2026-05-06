@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>King's Group Academies - 1:1 Device Programme 2024–2025</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B2A4A;
+      --gold: #B8952A;
+      --gold-light: #F5EDD6;
+      --bg: #F8F8F6;
+      --surface: #FFFFFF;
+      --border: rgba(0,0,0,0.1);
+      --text: #1a1a1a;
+      --muted: #5a5a5a;
+      --hint: #888;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { color: var(--navy); }
+
+    /* ── HEADER ───────────────────────────────────────────── */
+    header {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      height: 56px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: var(--gold);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .logo-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+    }
+    .header-cta {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.45rem 1rem;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .header-cta:hover { opacity: 0.88; }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      background: var(--navy);
+      padding: 4rem 1.5rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; right: -60px; bottom: 0;
+      width: 45%;
+      background: var(--gold);
+      clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--gold);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .hero-motto {
+      font-size: 16px;
+      color: var(--gold);
+      font-style: italic;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.72);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.7rem 1.4rem;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      border-radius: var(--radius-md);
+      padding: 0.7rem 1.4rem;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.15s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.7); }
+
+    /* ── NAV ──────────────────────────────────────────────── */
+    .page-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+    }
+    .page-nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .page-nav-inner::-webkit-scrollbar { display: none; }
+    .nav-link {
+      flex-shrink: 0;
+      padding: 1rem 1.25rem;
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--navy); }
+    .nav-link.active { color: var(--navy); border-bottom-color: var(--gold); font-weight: 600; }
+
+    /* ── LAYOUT ───────────────────────────────────────────── */
+    main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+    section {
+      padding-top: 3.5rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .section-title {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .section-intro {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    /* ── VISION STATS ─────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--navy);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .stat-num {
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+
+    /* ── VALUE CARDS ──────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .value-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .value-card-icon {
+      width: 36px; height: 36px;
+      background: var(--gold-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 0.75rem;
+    }
+    .value-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+    .value-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── INFO BOX ─────────────────────────────────────────── */
+    .info-box {
+      background: #EEF2FA;
+      border-left: 3px solid var(--navy);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 0.9rem 1.1rem;
+      font-size: 14px;
+      color: var(--navy);
+      line-height: 1.6;
+      margin: 1.5rem 0;
+    }
+
+    /* ── QUOTES ───────────────────────────────────────────── */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 2rem;
+    }
+    .quote-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .quote-mark {
+      font-size: 36px;
+      line-height: 1;
+      color: var(--gold);
+      font-family: Georgia, serif;
+      margin-bottom: -0.25rem;
+    }
+    .quote-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.65;
+      font-style: italic;
+      flex: 1;
+    }
+    .quote-attr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .quote-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .quote-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .quote-year {
+      font-size: 11px;
+      color: var(--hint);
+    }
+
+    /* ── DEVICE BLOCKS ────────────────────────────────────── */
+    .device-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+    .device-header {
+      background: var(--navy);
+      padding: 0.65rem 1.25rem;
+    }
+    .device-header span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .device-body { padding: 0.25rem 1.25rem; }
+    .device-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text);
+    }
+    .device-row:last-child { border-bottom: none; }
+    .device-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .device-row span { line-height: 1.55; }
+    .device-row strong { color: var(--navy); }
+
+    /* ── PRICING ──────────────────────────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1rem;
+      text-align: center;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .price-card:hover { box-shadow: 0 2px 12px rgba(27,42,74,0.1); border-color: rgba(27,42,74,0.25); }
+    .price-card.featured {
+      border: 2px solid var(--navy);
+    }
+    .price-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--navy);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .price-period {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .price-amount {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .price-total {
+      font-size: 11px;
+      color: var(--hint);
+    }
+    .addon-row {
+      background: #F5F5F2;
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+    .addon-row .addon-price { font-weight: 600; color: var(--navy); white-space: nowrap; }
+    .price-note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── Q&A ──────────────────────────────────────────────── */
+    .qa-list {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .qa-item { border-bottom: 1px solid var(--border); }
+    .qa-item:last-child { border-bottom: none; }
+    .qa-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+      transition: background 0.12s;
+    }
+    .qa-question:hover { background: #F8F8F6; }
+    .qa-chevron {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #EEF2FA;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.22s;
+    }
+    .qa-chevron svg { display: block; }
+    .qa-item.open .qa-chevron { transform: rotate(180deg); }
+    .qa-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.2s;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      padding: 0 1.25rem;
+    }
+    .qa-item.open .qa-answer {
+      max-height: 400px;
+      padding: 0 1.25rem 1.1rem;
+    }
+
+    /* ── CONTACT ──────────────────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 2.5rem 1.5rem;
+      margin-top: 4rem;
+      text-align: center;
+    }
+    .footer-motto {
+      font-size: 17px;
+      color: var(--gold);
+      font-style: italic;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    footer p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── QUOTES ───────────────────────────────────────────── */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .quote-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      position: relative;
+    }
+    .quote-mark {
+      font-size: 48px;
+      line-height: 1;
+      color: var(--gold);
+      font-family: Georgia, serif;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+    .quote-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .quote-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quote-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #EEF2FA;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      flex-shrink: 0;
+    }
+    .quote-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .quote-year {
+      font-size: 11px;
+      color: var(--hint);
+    }
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .header-cta { display: none; }
+      .hero { padding: 2.5rem 1.25rem 2rem; }
+      main { padding: 0 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <img src="https://kgabrunepark.uk/wp-content/uploads/sites/7/2025/07/KGS-Logo-Main-Page.png" alt="King's Group Academies" style="height: 38px; width: auto; display: block;" />
+        <div>
+          <div class="logo-text">King's Group Academies</div>
+          <div class="logo-sub">1:1 Device Programme 2024–2025</div>
+        </div>
+      </a>
+      <a href="#contact" class="header-cta">Sign up</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <img src="https://kgabrunepark.uk/wp-content/uploads/sites/7/2025/07/KGS-Logo-Main-Page.png" alt="King's Group Academies" style="height: 180px; width: auto; display: block; margin-bottom: 1.5rem;" />
+      <div class="hero-tag">King's Group Academies</div>
+      <h1>1:1 Device Programme<br>2024–2025</h1>
+      <p class="hero-motto">Opportunity and Success on a Global Stage</p>
+      <p>Every student equipped with the tools to learn anywhere, anytime - at school, at home and beyond.</p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">View pricing</a>
+        <a href="#vision" class="btn-outline">Our vision</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE NAV -->
+  <nav class="page-nav" aria-label="Page sections">
+    <div class="page-nav-inner">
+      <a href="#vision" class="nav-link active" data-section="vision">Our vision</a>
+      <a href="#voices" class="nav-link" data-section="voices">Student voices</a>
+      <a href="#device" class="nav-link" data-section="device">Device &amp; accessories</a>
+      <a href="#pricing" class="nav-link" data-section="pricing">Pricing</a>
+      <a href="#qa" class="nav-link" data-section="qa">Q&amp;A</a>
+      <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- OUR VISION -->
+    <section id="vision">
+      <div class="section-label">Why we do this</div>
+      <h2 class="section-title">Our vision</h2>
+      <div class="section-divider"></div>
+      <p class="section-intro">For the past five years, we have asked parents and students whether they would like the school to run a device programme. The response has been <strong>overwhelming</strong>. Students and parents have consistently told us they want devices to be a <strong>feature of most lessons</strong>, and the evidence backs this up: <strong>engagement increases</strong> and students genuinely enjoy learning with them.</p>
+      <p class="section-intro" style="margin-top: 1rem;">Based on that feedback, we are now moving into a new <strong>1:1 phase</strong>. Devices will feature in most lessons, with all resources available through <strong>Google Classroom</strong>. We remain committed to <strong>blended learning</strong>, and this transition also supports our <strong>green agenda</strong> - reducing our reliance on printing and cutting unnecessary waste.</p>
+      <p class="section-intro" style="margin-top: 1rem;">Students will be <strong>expected to bring their device to school every day</strong>. Our commitment is that Chromebooks will be used in <strong>practically every lesson</strong>. The only exceptions are practical subjects where the nature of the activity makes device use unsuitable - but even in these lessons, we will always endeavour to find a meaningful role for the Chromebook.</p>
+      <p class="section-intro" style="margin-top: 1rem;"><strong>Inclusion</strong> is at the heart of our vision. The Chromebook's built-in <strong>adaptive and accessibility technologies</strong> - from text-to-speech and dictation to adjustable display settings and focus tools - mean that every student, whatever their learning need, can access the curriculum in a way that works for them. Rather than a one-size-fits-all approach, the Chromebook allows learning to be personalised. Our aim is that every student feels confident, supported and able to participate fully - both in the classroom and at home.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">20%</div>
+          <div class="stat-label">of a child's life is spent in school - home learning is critical to success</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">500k+</div>
+          <div class="stat-label">educational apps on Chromebook - unmatched by any other device on the market</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3 yrs</div>
+          <div class="stat-label">full cover included - warranty and accidental damage, both with no excess</div>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="value-card">
+          <div class="value-card-icon">📚</div>
+          <h3>Learn anywhere</h3>
+          <p>Students access curriculum resources at home, on the go and in school - learning never stops.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">🤝</div>
+          <h3>Collaborate better</h3>
+          <p>Chromebooks are proven to encourage collaboration, leadership and enquiry skills that drive real progression.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">🌍</div>
+          <h3>Global readiness</h3>
+          <p>Digital skills are now a core requirement of every employer. We prepare students for success on a global stage.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">🔒</div>
+          <h3>Safe &amp; managed</h3>
+          <p>All devices are centrally managed via Jamf, with Smoothwall content filtering active in school.</p>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Mandatory device management:</strong> Under Government and DfE guidance, all connected devices must be centrally managed by IT support. Jamf device management software is applied to every device used on our network. Parental controls are provided free of charge as part of the programme.
+      </div>
+    </section>
+
+    <!-- STUDENT VOICES -->
+    <section id="voices" style="padding-top: 3.5rem;">
+      <div class="section-label">Student voices</div>
+      <h2 class="section-title">What our students say</h2>
+      <div class="section-divider"></div>
+      <p class="section-intro">We asked current students about what it means to have their own device when they started at secondary school. Here's what they told us.</p>
+
+      <div class="quotes-grid">
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">Having my own device means I can carry on with my work wherever I am. I don't have to wait until I'm back in school to finish something - I can just pick it up at home straight away.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">EM</div>
+            <div>
+              <div class="quote-name">Evie M.</div>
+              <div class="quote-year">Year 8</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">I was a bit nervous about starting secondary school, but having my own device made everything feel easier. All my lessons, notes and homework are in one place and I know exactly where to find them.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">JO</div>
+            <div>
+              <div class="quote-name">Joshua O.</div>
+              <div class="quote-year">Year 7</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">It feels like it's actually mine, which makes me want to look after it and use it properly. I take way more pride in my work now that I can organise everything myself.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">AR</div>
+            <div>
+              <div class="quote-name">Amara R.</div>
+              <div class="quote-year">Year 8</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">At primary we had to share computers and you couldn't take them home. Now I have something that's set up just for me and it's so much easier to keep on top of everything.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">TK</div>
+            <div>
+              <div class="quote-name">Theo K.</div>
+              <div class="quote-year">Year 7</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">My favourite thing is being able to annotate my notes and add diagrams. It's helped me so much with revision - I can make things look exactly how I want them.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">SB</div>
+            <div>
+              <div class="quote-name">Sofia B.</div>
+              <div class="quote-year">Year 9</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">I use mine every single day, even at weekends. It's become a normal part of how I study. I honestly can't imagine not having it now - it's changed how I learn completely.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">LC</div>
+            <div>
+              <div class="quote-name">Luca C.</div>
+              <div class="quote-year">Year 9</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">Having everything on Google Classroom has been a game changer for revision. All my notes, resources and past tasks are in one place - I can find anything instantly instead of hunting through folders or trying to remember which lesson we covered something.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">RP</div>
+            <div>
+              <div class="quote-name">Riya P.</div>
+              <div class="quote-year">Year 10</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">Google Classroom has made me so much more organised. I always know exactly what's been set, when it's due and where to hand it in. It's taken so much stress out of keeping on top of everything, especially now the workload is heavier in Year 10.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">MT</div>
+            <div>
+              <div class="quote-name">Marcus T.</div>
+              <div class="quote-year">Year 10</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">I never thought I'd use it as much as I do. It's not just for English or Maths - I use it in almost every lesson now. Being able to look things up, take notes and submit work all on the same device just makes everything flow so much better.</p>
+          <div class="quote-attr">
+            <div class="quote-avatar">NW</div>
+            <div>
+              <div class="quote-name">Niamh W.</div>
+              <div class="quote-year">Year 8</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVICE & ACCESSORIES -->
+    <section id="device">
+      <div class="section-label">What's included</div>
+      <h2 class="section-title">Device &amp; accessories</h2>
+      <div class="section-divider"></div>
+      <p class="section-intro">Every student receives a complete, ready-to-learn package - fully configured and protected from day one.</p>
+
+      <div class="device-block">
+        <div class="device-header"><span>Device</span></div>
+        <div class="device-body">
+          <div class="device-row"><div class="device-dot"></div><span><strong>Apple Chromebook 11-inch 128GB Wi-Fi</strong> - latest generation with ample storage for all curriculum apps and creative work</span></div>
+          <div class="device-row"><div class="device-dot"></div><span><strong>USB-C 20W charger</strong> included as standard</span></div>
+        </div>
+      </div>
+
+      <div class="device-block">
+        <div class="device-header"><span>Accessories</span></div>
+        <div class="device-body">
+          <div class="device-row"><div class="device-dot"></div><span><strong>Deqster Smart Rugged Touch Plus keyboard case</strong> - purpose-built for school use with rugged protection and a full keyboard</span></div>
+          <div class="device-row"><div class="device-dot"></div><span><strong>Tucano Pencil 3</strong> - active stylus for note-taking, annotation and creative work across all subjects</span></div>
+          <div class="device-row"><div class="device-dot"></div><span>Screen protector available for £8, fitted before delivery - see <a href="#pricing">pricing</a> for details</span></div>
+        </div>
+      </div>
+
+      <div class="device-block">
+        <div class="device-header"><span>Programme cover &amp; services</span></div>
+        <div class="device-body">
+          <div class="device-row"><div class="device-dot"></div><span><strong>3-year mechanical warranty</strong> - no excess</span></div>
+          <div class="device-row"><div class="device-dot"></div><span><strong>3-year accidental damage cover</strong> - no excess</span></div>
+          <div class="device-row"><div class="device-dot"></div><span>3-year Edutech parent programme support</span></div>
+          <div class="device-row"><div class="device-dot"></div><span>3-year Direct Debit management</span></div>
+          <div class="device-row"><div class="device-dot"></div><span>3-year Jamf licence, including free parental controls for families</span></div>
+          <div class="device-row"><div class="device-dot"></div><span>Operating lease structure - <strong>ownership transfers to your family at end of term</strong></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="section-label">Parent contribution options</div>
+      <h2 class="section-title">Pricing</h2>
+      <div class="section-divider"></div>
+      <p class="section-intro">Choose the option that works best for your family. All plans include the full 3-year warranty and accidental damage cover with no excess.</p>
+
+      <div class="pricing-grid">
+        <div class="price-card featured">
+          <div class="price-badge">Most popular</div>
+          <span class="price-period">One-off payment</span>
+          <div class="price-amount">£463</div>
+          <div class="price-total">Best overall value</div>
+        </div>
+        <div class="price-card">
+          <span class="price-period">12 monthly payments</span>
+          <div class="price-amount">£43.39</div>
+          <div class="price-total">Total ~£520.68</div>
+        </div>
+        <div class="price-card">
+          <span class="price-period">24 monthly payments</span>
+          <div class="price-amount">£22.76</div>
+          <div class="price-total">Total ~£546.24</div>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">Most popular</div>
+          <span class="price-period">36 monthly payments</span>
+          <div class="price-amount">£16.23</div>
+          <div class="price-total">Total ~£584.28</div>
+        </div>
+      </div>
+
+      <p style="font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem;">Optional add-on</p>
+      <div class="addon-row">
+        <span>Screen protector - fitted on the device before delivery</span>
+        <span class="addon-price">£8 per device</span>
+      </div>
+
+      <div class="info-box">
+        Contributions are collected by EduTech via Direct Debit. Payments begin only once devices have been delivered - you will receive a notification confirming the start date. Ownership of the device transfers to your family on completion of all agreed payments.
+      </div>
+
+      <p class="price-note">No child will be excluded from the programme due to financial circumstances. If you have any concerns about the cost, please speak to us in confidence - we will always find a way to ensure your child is included.</p>
+    </section>
+
+    <!-- Q&A -->
+    <section id="qa">
+      <div class="section-label">Everything you need to know</div>
+      <h2 class="section-title">Your questions answered</h2>
+      <div class="section-divider"></div>
+      <p class="section-intro">Common questions from families about the King's Group Academies 1:1 Chromebook Programme.</p>
+
+      <div class="qa-list" role="list">
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            Why the Chromebook?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">The Chromebook is the most intuitive device on the market and offers over 500,000 educational applications - unmatched by any competitor. The 11-inch screen with 128GB of storage gives students ample space and display for all curriculum activities, from note-taking and research to creative projects and video production.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            Why does my child need their own Chromebook?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">Digital skills are now a basic expectation in almost every career. Research confirms that good home access to technology positively impacts educational achievement - it motivates students, improves the quality and presentation of their work, and allows them to explore subjects in their own time.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            Who owns the Chromebook?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">The device remains the property of King's Group Academies throughout your chosen payment term. Ownership transfers to your family once all agreed contributions have been completed - whether you chose the upfront option or a 12, 24 or 36-month plan. It is then yours to keep.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            What happens if the Chromebook is damaged or lost?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">The programme includes 3-year accidental damage cover with no excess, provided the device is kept in the supplied Deqster Smart Rugged Touch Plus keyboard case. If the device needs repair or replacement, contact the school in the first instance and we will guide you through the claims process.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            What if I can't afford the contributions?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">No child will be excluded from the programme because of financial circumstances. Please come and speak to us in confidence so we can find a way to ensure your child is included. Our commitment is that every student has access to the same learning opportunities.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            What if I don't want to take part?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">We strongly encourage all families to participate. If you opt out, your child will not be provided with a personal device to take home. Students will still have access to shared devices in school, but they will not have their own Chromebook for home use.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            Can I use an Chromebook we already own?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">Yes, provided it meets our minimum specification - a current-generation Chromebook with stylus support and sufficient storage for educational apps. The device will need to be wiped and our Jamf device management software installed, in line with Government and DfE guidance. Please contact us before assuming an existing device is compatible.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            How will my child be kept safe online?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">All Chromebooks are managed through Jamf, which restricts students to school-approved applications on the school network. Internet access is filtered through Smoothwall, which blocks inappropriate content and is updated regularly as the internet evolves. Students are also asked to install an HTTPS certificate to support their online safety. Parents can additionally monitor usage at home through Jamf's free parental controls.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            Will my child be safe carrying the Chromebook to and from school?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">We ask all students to keep their Chromebook out of sight in their bag whilst travelling to and from school. Chromebooks can be locked, tracked, located if lost, and have data removed remotely. In the unlikely event that a child is approached and asked to hand over their device, they should do so without resistance and inform you immediately so you can contact the Police and the school.</div>
+        </div>
+
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            How is students' work submitted and marked?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">Students submit work through <strong>Google Classroom</strong>, which acts as their digital schoolbag and planner - everything in one place. Teachers set work, provide resources and give feedback all through the same platform, so students always know where to look. We encourage parents to download the <strong>Google Classroom app</strong> onto their own devices so they can see what has been set, track deadlines and support their child at home.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            How does the Chromebook support students with additional learning needs?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">The Chromebook has some of the most advanced built-in accessibility features of any device on the market, and we actively support students in learning to use them. For students who find reading difficult, the Chromebook can read text aloud and display it in a larger, cleaner format. For those who struggle with writing, dictation and handwriting recognition mean students can express themselves without being held back by typing. Students with visual or hearing needs can adjust display colours, enable live captions and use visual alerts. Focus tools help students who find it hard to manage distractions, and Voice Control allows fully hands-free operation for students with motor difficulties. Our goal is not just to support students in school - it is to help them develop <strong>lifelong skills and independence</strong>. When a student learns to use these tools to meet their own needs, they carry that confidence and capability with them well beyond the classroom. If your child has specific needs, please speak to us so we can ensure their device is set up to give them the best possible access to their learning.</div>
+        </div>
+
+        <div class="qa-item" role="listitem">
+          <button class="qa-question" aria-expanded="false" onclick="toggleQA(this)">
+            Will we need to buy any other equipment or apps?
+            <span class="qa-chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#1B2A4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <div class="qa-answer">Ideally, every student should have access to the internet at home, but no additional equipment is required. We will never ask you to purchase apps directly - the school selects and pre-installs everything needed.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-label">Get in touch</div>
+      <h2 class="section-title">Contact us</h2>
+      <div class="section-divider"></div>
+      <p class="section-intro">Our team is here to help. If your question isn't answered above, please reach out to us directly.</p>
+
+      <div class="contact-grid">
+        <div class="device-block">
+          <div class="device-header"><span>School contact details</span></div>
+          <div class="device-body">
+            <div class="device-row"><div class="device-dot"></div><span>[School Name]</span></div>
+            <div class="device-row"><div class="device-dot"></div><span>[Address, Town, Postcode]</span></div>
+            <div class="device-row"><div class="device-dot"></div><span>[Phone number]</span></div>
+            <div class="device-row"><div class="device-dot"></div><span>[General enquiries email]</span></div>
+            <div class="device-row"><div class="device-dot"></div><span>[School website]</span></div>
+          </div>
+        </div>
+
+        <div class="device-block">
+          <div class="device-header"><span>Chromebook programme enquiries</span></div>
+          <div class="device-body">
+            <div class="device-row"><div class="device-dot"></div><span>[Chromebook programme email address]</span></div>
+            <div class="device-row"><div class="device-dot"></div><span>[Sign-up portal link]</span></div>
+            <div class="device-row"><div class="device-dot"></div><span>[Access code, if required]</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top: 1.5rem;">
+        No child will be excluded from the programme due to financial circumstances. If you have any concerns about the cost, please speak to us in confidence.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="footer-motto">Opportunity and Success on a Global Stage</p>
+    <p>King's Group Academies &nbsp;·&nbsp; 1:1 Device Programme 2024–2025</p>
+  </footer>
+
+  <script>
+    function toggleQA(btn) {
+      const item = btn.closest('.qa-item');
+      const isOpen = item.classList.contains('open');
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', !isOpen);
+    }
+
+    const navLinks = document.querySelectorAll('.nav-link[data-section]');
+    const sections = document.querySelectorAll('main section');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(l => {
+            l.classList.toggle('active', l.dataset.section === id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>
