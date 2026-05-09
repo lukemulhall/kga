@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The SAMR Model: What KGA Teachers Are Doing with Google Education Plus</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --g-blue:    #4285F4;
+    --g-red:     #EA4335;
+    --g-yellow:  #FBBC04;
+    --g-green:   #34A853;
+    --kga-navy:  #1B2A4A;
+    --kga-mid:   #2C4170;
+    --kga-light: #E8EDF5;
+    --kga-gold:  #C9973A;
+    --sub-color:  #4285F4;
+    --sub-light:  #E8F0FE;
+    --aug-color:  #34A853;
+    --aug-light:  #E6F4EA;
+    --mod-color:  #FBBC04;
+    --mod-light:  #FEF9E7;
+    --red-color:  #EA4335;
+    --red-light:  #FCE8E6;
+    --text-dark:  #202124;
+    --text-mid:   #3C4043;
+    --text-light: #5F6368;
+    --border:     #DADCE0;
+    --surface:    #F8F9FA;
+    --white:      #FFFFFF;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--surface);
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+
+  .kga-strip {
+    background: var(--kga-navy);
+    padding: 0 48px;
+  }
+
+  .kga-strip-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .kga-brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .kga-wordmark-name {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.2px;
+    line-height: 1.2;
+  }
+
+  .kga-wordmark-sub {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .kga-values {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .kga-value-pill {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+
+  .kga-value-pill.gold {
+    color: var(--kga-gold);
+    background: rgba(201,151,58,0.13);
+    border-color: rgba(201,151,58,0.32);
+  }
+
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 15px 0 13px;
+    flex-wrap: wrap;
+  }
+
+  .google-logo {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+
+  .google-logo span {
+    font-family: 'Google Sans Display', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-g  { color: var(--g-blue); }
+  .logo-o1 { color: var(--g-red); }
+  .logo-o2 { color: var(--g-yellow); }
+  .logo-g2 { color: var(--g-blue); }
+  .logo-l  { color: var(--g-green); }
+  .logo-e  { color: var(--g-red); }
+
+  .header-divider {
+    width: 1px;
+    height: 25px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  .header-label {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-mid);
+  }
+
+  .partnership-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--kga-light);
+    border: 1px solid rgba(27,42,74,0.18);
+    border-radius: 20px;
+    padding: 4px 12px 4px 8px;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--kga-navy);
+  }
+
+  .partnership-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--kga-gold);
+    flex-shrink: 0;
+  }
+
+  .header-doc-title {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-light);
+    font-family: 'Google Sans', sans-serif;
+  }
+
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 44px 48px 40px;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .google-dots {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+
+  .hero h1 {
+    font-family: 'Google Sans Display', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 span { color: var(--g-blue); }
+
+  .hero p {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 680px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .stage-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .stage-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 13px;
+    border-radius: 20px;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1.5px solid;
+    cursor: default;
+  }
+
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .pill-sub   { color: var(--sub-color); border-color: var(--sub-color); background: var(--sub-light); }
+  .pill-aug   { color: var(--aug-color); border-color: var(--aug-color); background: var(--aug-light); }
+  .pill-mod   { color: #8A5E00;          border-color: var(--mod-color); background: var(--mod-light); }
+  .pill-redef { color: var(--red-color); border-color: var(--red-color); background: var(--red-light); }
+
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 48px 60px;
+  }
+
+  .stage {
+    margin-bottom: 40px;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(60,64,67,.07), 0 1px 2px rgba(60,64,67,.05);
+  }
+
+  .stage-header {
+    padding: 17px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .stage-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .stage-label {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .stage-name {
+    font-family: 'Google Sans Display', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  .stage-badge {
+    margin-left: auto;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .techniques-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  .techniques-table thead tr {
+    background: #F1F3F4;
+    border-top: 1px solid var(--border);
+  }
+
+  .techniques-table thead th {
+    padding: 9px 20px;
+    text-align: left;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .techniques-table thead th:first-child { width: 27%; }
+  .techniques-table thead th:nth-child(2) { width: 36.5%; }
+  .techniques-table thead th:nth-child(3) { width: 36.5%; }
+
+  .techniques-table tbody tr {
+    border-top: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  .techniques-table tbody tr:hover { background: #F8F9FA; }
+
+  .techniques-table td {
+    padding: 17px 20px;
+    vertical-align: top;
+    color: var(--text-mid);
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+
+  .tech-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 7px;
+  }
+
+  .tech-name {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+
+  .tech-desc {
+    font-size: 12.5px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .col-label { display: flex; align-items: center; gap: 6px; }
+  .col-icon  { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .stage-sub .stage-header  { background: var(--sub-light); border-bottom: 2px solid var(--sub-color); }
+  .stage-sub .stage-label   { color: var(--sub-color); }
+  .stage-sub .stage-badge   { background: var(--sub-color); color: var(--white); }
+  .stage-sub .stage-icon    { background: var(--sub-color); }
+  .stage-sub .tech-num      { background: var(--sub-color); }
+
+  .stage-aug .stage-header  { background: var(--aug-light); border-bottom: 2px solid var(--aug-color); }
+  .stage-aug .stage-label   { color: var(--aug-color); }
+  .stage-aug .stage-badge   { background: var(--aug-color); color: var(--white); }
+  .stage-aug .stage-icon    { background: var(--aug-color); }
+  .stage-aug .tech-num      { background: var(--aug-color); }
+
+  .stage-mod .stage-header  { background: var(--mod-light); border-bottom: 2px solid var(--mod-color); }
+  .stage-mod .stage-label   { color: #8A5E00; }
+  .stage-mod .stage-badge   { background: var(--mod-color); color: #202124; }
+  .stage-mod .stage-icon    { background: var(--mod-color); }
+  .stage-mod .tech-num      { background: #8A5E00; }
+
+  .stage-redef .stage-header { background: var(--red-light); border-bottom: 2px solid var(--red-color); }
+  .stage-redef .stage-label  { color: var(--red-color); }
+  .stage-redef .stage-badge  { background: var(--red-color); color: var(--white); }
+  .stage-redef .stage-icon   { background: var(--red-color); }
+  .stage-redef .tech-num     { background: var(--red-color); }
+
+  .footer {
+    background: var(--kga-navy);
+    padding: 26px 48px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .footer-logos {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .footer-divider-v {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .footer-cite {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+  }
+
+  @media (max-width: 820px) {
+    .kga-strip, .header, .hero, .footer { padding-left: 20px; padding-right: 20px; }
+    .main { padding: 20px 20px 48px; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .samr-pyramid { display: none; }
+      .hero h1 { font-size: 28px; }
+    .header-doc-title, .kga-values { display: none; }
+    .techniques-table thead { display: none; }
+    .techniques-table tbody tr, .techniques-table td { display: block; }
+    .footer-logos { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .footer-divider-v { display: none; }
+  }
+
+  /* ── COLLAPSE / EXPAND ── */
+  .stage-body {
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+    max-height: 3000px;
+    opacity: 1;
+  }
+
+  .stage-body.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .stage-header {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .stage-header:hover {
+    filter: brightness(0.97);
+  }
+
+  .collapse-chevron {
+    margin-left: 10px;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .stage.is-collapsed .collapse-chevron {
+    transform: rotate(-90deg);
+  }
+
+  .stage-pill.active-pill {
+    box-shadow: 0 0 0 2px currentColor;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- KGA TOP STRIP -->
+<div class="kga-strip">
+  <div class="kga-strip-inner">
+    <div class="kga-brand">
+      <img src="https://mynewterm-logos.s3.eu-west-2.amazonaws.com/logo-144505.png" 
+           alt="King's Group Academies" 
+           style="height:44px;width:auto;display:block;filter:brightness(0) invert(1);"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+      <div style="display:none;font-family:'Google Sans',sans-serif;font-size:15px;font-weight:700;color:white;">King's Group Academies</div>
+    </div>
+    <div class="kga-values">
+      <span class="kga-value-pill" style="color:#4285F4;background:rgba(66,133,244,0.15);border-color:rgba(66,133,244,0.35);">Honesty</span>
+      <span class="kga-value-pill" style="color:#EA4335;background:rgba(234,67,53,0.15);border-color:rgba(234,67,53,0.35);">Faith</span>
+      <span class="kga-value-pill" style="color:#34A853;background:rgba(52,168,83,0.15);border-color:rgba(52,168,83,0.35);">Courage</span>
+    </div>
+  </div>
+</div>
+
+<!-- GOOGLE HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="google-logo">
+      <span class="logo-g">G</span>
+      <span class="logo-o1">o</span>
+      <span class="logo-o2">o</span>
+      <span class="logo-g2">g</span>
+      <span class="logo-l">l</span>
+      <span class="logo-e">e</span>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-label">for Education</div>
+    <div class="partnership-badge">
+      <div class="partnership-dot"></div>
+      KGA Technology Integration Guide
+    </div>
+    <div class="header-doc-title">SAMR Model</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="google-dots">
+        <div class="dot" style="background:#4285F4"></div>
+        <div class="dot" style="background:#EA4335"></div>
+        <div class="dot" style="background:#FBBC04"></div>
+        <div class="dot" style="background:#34A853"></div>
+      </div>
+      <h1>The <span>SAMR</span> Model</h1>
+      <h2 style="font-family:'Google Sans Display',sans-serif;font-size:20px;font-weight:400;color:var(--text-light);letter-spacing:-0.2px;margin-bottom:10px;line-height:1.3;">What KGA Teachers Are Doing with Google Education Plus</h2>
+      <p>Developed by Dr Ruben Puentedura, SAMR provides a four-level framework for integrating technology into teaching. The techniques shared throughout this guide have come directly from <strong>teachers within King's Group Academies</strong>, reflecting real approaches already being used with students across our schools. This is not a theoretical document; it is a practical record of what KGA teachers are doing in their classrooms today using Google Workspace for Education.</p>
+      <p style="margin-top:14px;">At KGA, our vision is to provide <strong>Opportunity and Success on a Global Stage</strong> for every student. Technology integration sits at the heart of that mission. When teachers move up the SAMR ladder from simple substitution toward redefinition, they do not just save time or add novelty. They open doors. Students who collaborate in real time with peers across the world, present to genuine audiences, and use professional-grade digital tools are not just learning content; they are developing the adaptability, communication skills, and global awareness that KGA's vision demands. Every step up the SAMR model is a step closer to that global stage.</p>
+      <div class="stage-pills">
+        <div class="stage-pill pill-sub"><div class="pill-dot" style="background:#4285F4"></div>Substitution</div>
+        <div class="stage-pill pill-aug"><div class="pill-dot" style="background:#34A853"></div>Augmentation</div>
+        <div class="stage-pill pill-mod"><div class="pill-dot" style="background:#FBBC04"></div>Modification</div>
+        <div class="stage-pill pill-redef"><div class="pill-dot" style="background:#EA4335"></div>Redefinition</div>
+      </div>
+    </div>
+    <div class="samr-pyramid">
+      <svg width="100%" viewBox="0 0 430 390" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title>SAMR model staircase diagram</title>
+        <desc>Four right-aligned horizontal bars ascending like steps. Increasing transformation arrow on the left, Enhancement and Transformation label bars on the right.</desc>
+        <defs>
+          <marker id="parr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- ── LEFT: Increasing transformation arrow ── -->
+        <line x1="10" y1="366" x2="10" y2="70" stroke="#DADCE0" stroke-width="1.5" marker-end="url(#parr)"/>
+        <text x="10" y="222" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="8.5" fill="#9AA0A6"
+              transform="rotate(-90 10 222)">Increasing transformation</text>
+
+        <!-- ── STAIRCASE BARS (right edge = x 390) ── -->
+
+        <!-- Step 1: Substitution ,  x=80 w=310 right=390 -->
+        <rect x="80" y="302" width="310" height="62" rx="6" fill="#4285F4"/>
+        <rect x="80" y="302" width="310" height="5" rx="6" fill="#6BA5F7"/>
+        <text x="94" y="326" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="13" font-weight="700" fill="white">Substitution</text>
+        <text x="94" y="347" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9.5" fill="rgba(255,255,255,0.85)">Direct replacement, no functional change</text>
+        <rect x="310" y="315" width="68" height="20" rx="10" fill="rgba(255,255,255,0.18)"/>
+        <text x="344" y="325" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9" font-weight="600" fill="white">STAGE 1</text>
+
+        <!-- Step 2: Augmentation ,  x=106 w=284 right=390 -->
+        <rect x="106" y="224" width="284" height="62" rx="6" fill="#34A853"/>
+        <rect x="106" y="224" width="284" height="5" rx="6" fill="#4DC466"/>
+        <text x="120" y="249" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="13" font-weight="700" fill="white">Augmentation</text>
+        <text x="120" y="270" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9.5" fill="rgba(255,255,255,0.85)">Functional improvement added</text>
+        <rect x="310" y="237" width="68" height="20" rx="10" fill="rgba(255,255,255,0.18)"/>
+        <text x="344" y="247" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9" font-weight="600" fill="white">STAGE 2</text>
+
+        <!-- Step 3: Modification ,  x=132 w=258 right=390 -->
+        <rect x="132" y="146" width="258" height="62" rx="6" fill="#FBBC04"/>
+        <rect x="132" y="146" width="258" height="5" rx="6" fill="#FCCA2C"/>
+        <text x="146" y="171" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="13" font-weight="700" fill="#3D2600">Modification</text>
+        <text x="146" y="192" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9.5" fill="rgba(61,38,0,0.75)">Significant task redesign</text>
+        <rect x="310" y="159" width="68" height="20" rx="10" fill="rgba(0,0,0,0.1)"/>
+        <text x="344" y="169" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9" font-weight="600" fill="#5A3800">STAGE 3</text>
+
+        <!-- Step 4: Redefinition ,  x=158 w=232 right=390 -->
+        <rect x="158" y="68" width="232" height="62" rx="6" fill="#EA4335"/>
+        <rect x="158" y="68" width="232" height="5" rx="6" fill="#EE5C50"/>
+        <text x="172" y="93" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="13" font-weight="700" fill="white">Redefinition</text>
+        <text x="172" y="114" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9.5" fill="rgba(255,255,255,0.85)">New, previously impossible tasks</text>
+        <rect x="310" y="81" width="68" height="20" rx="10" fill="rgba(255,255,255,0.18)"/>
+        <text x="344" y="91" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="9" font-weight="600" fill="white">STAGE 4</text>
+
+        <!-- ── Stair-step connectors ── -->
+        <polyline points="158,130 132,130 132,146" fill="none" stroke="#DADCE0" stroke-width="1" stroke-dasharray="3 3"/>
+        <polyline points="132,208 106,208 106,224" fill="none" stroke="#DADCE0" stroke-width="1" stroke-dasharray="3 3"/>
+        <polyline points="106,286 80,286 80,302" fill="none" stroke="#DADCE0" stroke-width="1" stroke-dasharray="3 3"/>
+
+        <!-- ── RIGHT: Enhancement label bar (stages 1 to 2: y 224→366 h=142) ── -->
+        <rect x="402" y="224" width="16" height="142" rx="4" fill="#3A72CC"/>
+        <text x="410" y="295" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="8.5" font-weight="600" fill="white"
+              transform="rotate(90 410 295)">Enhancement</text>
+
+        <!-- ── RIGHT: Transformation label bar (stages 3 to 4: y 68→208 h=140) ── -->
+        <rect x="402" y="68" width="16" height="140" rx="4" fill="#34A853"/>
+        <text x="410" y="138" text-anchor="middle" dominant-baseline="central"
+              font-family="Google Sans, sans-serif" font-size="8.5" font-weight="600" fill="white"
+              transform="rotate(90 410 138)">Transformation</text>
+
+        <!-- ── Google four dots ── -->
+        <circle cx="210" cy="378" r="4" fill="#4285F4"/>
+        <circle cx="224" cy="378" r="4" fill="#34A853"/>
+        <circle cx="238" cy="378" r="4" fill="#FBBC04"/>
+        <circle cx="252" cy="378" r="4" fill="#EA4335"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+
+  <!-- SUBSTITUTION -->
+  <section class="stage stage-sub">
+    <div class="stage-header">
+      <div class="stage-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div>
+        <div class="stage-label">Stage 1 of 4 &nbsp;|&nbsp; Enhancement</div>
+        <div class="stage-name">Substitution</div>
+      </div>
+      <div class="stage-badge">No functional change</div>
+    </div>
+    <table class="techniques-table">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>Why use this?</div></th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Impact on learning</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="tech-num">1</div>
+            <div class="tech-name">Digital Worksheets via Google Classroom</div>
+            <div class="tech-desc">Replace paper worksheets with <strong>Google Docs</strong> shared via <strong>Google Classroom</strong>. Teachers can distribute a <strong>master copy</strong> that every student receives their own editable version of, share a <strong>single live document</strong> the whole class works from, or push <strong>multiple sheets for differentiation</strong> simultaneously. The master can be <strong>updated mid-lesson</strong> so all students see changes instantly.</div>
+          </td>
+          <td><strong>Eliminates all photocopying</strong> time and cost. No worksheets are ever lost or left at home. A teacher can push out a new task, add a hint, or correct an error to every student <strong>in seconds</strong>. <strong>Differentiated packs</strong> (support, core, extension) can be shared to different groups without any extra printing. Work is <strong>automatically saved</strong> to Google Drive, giving the teacher a permanent, accessible record.</td>
+          <td>Reduces <strong>administrative burden</strong> significantly, freeing more <strong>lesson time for teaching</strong>. Students with accessibility needs can adjust font size, use <strong>text-to-speech</strong>, or type rather than write. <strong>Instant distribution</strong> to absent students removes the "I missed that lesson" gap. Research shows reducing organisational friction allows teachers to focus <strong>cognitive load on pedagogy</strong>.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">2</div>
+            <div class="tech-name">Google Calendar and Classroom To-Do List as a Student Planner</div>
+            <div class="tech-desc">Replace the paper homework diary with <strong>Google Calendar</strong> and the <strong>Google Classroom To-Do List</strong>. Teachers add <strong>homework deadlines</strong> and assessment dates directly to a shared class calendar. Students see <strong>every deadline in one place</strong>, across all subjects, on any device. Used alongside the <strong>Arbor app</strong>, where students can check their timetable, exam schedule, attendance, and behaviour points, students have a <strong>complete picture of their school life</strong> in a single digital ecosystem.</div>
+          </td>
+          <td><strong>Paper planners go out of date and get lost.</strong> Google Calendar updates <strong>instantly</strong> the moment a teacher changes a deadline, and the Google Classroom To-Do List gives students a <strong>personal tick-off homework list</strong>. <strong>Parents can subscribe</strong> to the same calendar, so they can see exactly what is due and when, making it far easier to <strong>support their child at home</strong>.</td>
+          <td>Students develop genuine <strong>self-management habits</strong> rather than waiting to be reminded. Seeing deadlines, timetables, attendance, and behaviour points <strong>in one place</strong>, through Calendar, the Classroom To-Do List, and Arbor, <strong>reduces anxiety</strong> and helps students prioritise. Research consistently links <strong>greater parental visibility</strong> to improved outcomes and attendance.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">3</div>
+            <div class="tech-name">AI-Generated Flashcards via NotebookLM</div>
+            <div class="tech-desc">Replace handwritten revision cards with <strong>AI-generated flashcard sets</strong> built directly from the teacher's own lesson materials uploaded to <strong>NotebookLM</strong>. The tool generates flashcards <strong>grounded exclusively in class sources</strong>. Students can adjust <strong>difficulty level</strong>, choose how many cards to generate, and <strong>tick off cards</strong> they answer correctly to track their own progress.</div>
+          </td>
+          <td>Creating a quality flashcard set by hand <strong>takes hours</strong>; NotebookLM produces one from existing lesson resources <strong>in seconds</strong>. Flashcards reflect <strong>exactly what was taught</strong>, not a third-party interpretation. The <strong>self-assessment tick-off</strong> feature gives students agency and <strong>metacognitive awareness</strong> of their own gaps, without the teacher marking anything.</td>
+          <td>Encourages <strong>spaced retrieval practice</strong>, one of the most evidence-backed strategies for <strong>long-term retention</strong>. Students who identify their own knowledge gaps engage in more <strong>targeted revision</strong>. The <strong>"testing effect"</strong> consistently shows retrieval practice outperforms passive re-reading. Teachers save considerable <strong>preparation time</strong> to reinvest in feedback and planning.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- AUGMENTATION -->
+  <section class="stage stage-aug">
+    <div class="stage-header">
+      <div class="stage-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      </div>
+      <div>
+        <div class="stage-label">Stage 2 of 4 &nbsp;|&nbsp; Enhancement</div>
+        <div class="stage-name">Augmentation</div>
+      </div>
+      <div class="stage-badge">Functional improvement</div>
+    </div>
+    <table class="techniques-table">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>Why use this?</div></th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Impact on learning</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="tech-num">1</div>
+            <div class="tech-name">Shared Google Docs for Collaborative and Guided Work</div>
+            <div class="tech-desc">Students and teachers work in the <strong>same Google Doc simultaneously</strong>, whether in the classroom or remotely. Students can <strong>collaborate with each other in real time or asynchronously</strong>, each contributing in their own <strong>colour-coded text</strong> so contributions are instantly identifiable. The teacher can read, comment, and guide <strong>without the student needing to submit anything</strong>, and students do not need to be in the same place at the same time.</div>
+          </td>
+          <td>A paper exercise book can only be seen by one person at a time. A <strong>shared Google Doc is live</strong>: the teacher can watch a student write, spot a misconception forming, and leave a comment before the student has even finished the sentence. Students working together can <strong>divide tasks, build on each other's ideas, and leave suggestions in different colours</strong>, making every contribution visible and accountable. Work can continue <strong>at home, in a study period, or across different lessons</strong> without any handover or file transfer.</td>
+          <td>Collaboration becomes genuinely <strong>flexible and inclusive</strong>. Students who are absent, studying remotely, or working at a different pace can contribute <strong>asynchronously</strong> without falling behind the group. The teacher gains a <strong>real-time window into student thinking</strong>, catching misunderstandings far earlier than marked homework would allow. Colour-coded contributions mean <strong>every student's voice is visible</strong>, making it far easier to identify who is engaging and who may need support.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">2</div>
+            <div class="tech-name">Chromebook Accessibility Features for Every Learner</div>
+            <div class="tech-desc">Chromebooks and Google Workspace come with a <strong>rich suite of built-in accessibility tools</strong> that every student can configure themselves. These include <strong>text-to-speech</strong> (Select-to-Speak reads any text aloud), <strong>speech-to-text</strong> voice typing, <strong>screen magnification</strong>, <strong>high-contrast display modes</strong>, and adjustable font sizes. In Google Docs and Slides, students can change the <strong>page or slide background colour</strong> to a tint that is easier for them to read, such as cream or pale yellow, removing the harshness of a white screen without needing any specialist software.</div>
+          </td>
+          <td>Traditionally, a student who needed larger text, a coloured overlay, or text read aloud would have to ask the teacher to organise it, drawing attention to themselves and <strong>relying on adult intervention</strong>. With Chromebook accessibility features, <strong>every student can set up their own device independently</strong>, in seconds, without asking for help. This promotes <strong>genuine equality of access</strong>: a student with dyslexia, visual stress, or a hearing impairment has the same tools available as any other student, on the same device, in the same lesson, without any special arrangement.</td>
+          <td>Students who can access content in a format that suits them are <strong>less likely to disengage or fall behind</strong>. The ability to self-configure reduces the stigma often associated with needing support, because <strong>every student can adjust their own device</strong> without it being visible to others. Teachers spend less time managing individual accommodations and more time teaching. Over time, students develop a <strong>greater awareness of how they learn best</strong> and the confidence to advocate for their own needs, skills that extend well beyond the classroom.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">3</div>
+            <div class="tech-name">Google Form Quiz and Practice Sets</div>
+            <div class="tech-desc">Replace paper tests and hand-raising checks with <strong>Google Form quizzes</strong> used as <strong>starters, plenaries, or mini-checks mid-lesson</strong>. Students submit answers and receive <strong>instant automated feedback</strong>. Results flow directly into the <strong>Google Classroom mark book</strong>, visible to teachers, students, and parents in real time.</div>
+          </td>
+          <td>There is <strong>zero marking</strong> for the teacher ,  Google grades every response automatically. The teacher can see <strong>instantly where every student is</strong> and which questions or concepts need addressing, without waiting until the next day. Used for <strong>Assessment for Learning (AFL)</strong>, quizzes can open a lesson to activate prior knowledge, pause mid-lesson as a quick comprehension check, or close a lesson as a plenary to assess what has landed. All results sit permanently in the <strong>Classroom mark book</strong>, so teachers, students, and parents have a live, running record of progress.</td>
+          <td><strong>Instant feedback</strong> means students know immediately which answers were wrong and why, closing the gap between performance and understanding in the same lesson. The <strong>mark book visibility</strong> for parents removes the guesswork around how their child is progressing. Teachers can <strong>adapt their teaching on the spot</strong> rather than discovering gaps days later through marked homework, making every lesson more responsive and every student more accountable for their own learning.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- MODIFICATION -->
+  <section class="stage stage-mod">
+    <div class="stage-header">
+      <div class="stage-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+      <div>
+        <div class="stage-label">Stage 3 of 4 &nbsp;|&nbsp; Transformation</div>
+        <div class="stage-name">Modification</div>
+      </div>
+      <div class="stage-badge">Significant task redesign</div>
+    </div>
+    <table class="techniques-table">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>Why use this?</div></th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Impact on learning</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="tech-num">1</div>
+            <div class="tech-name">Student Choice: Video Explainers, Google Vids, and Google Sites</div>
+            <div class="tech-desc">Instead of every student producing the same written essay, students are given <strong>autonomy over how they present their understanding</strong>. Options include recording a <strong>video explainer using Google Vids</strong>, building a <strong>Google Site</strong> as a mini-website on the topic, creating an <strong>annotated digital presentation</strong>, or producing an <strong>illustrated guide</strong>. The content requirement remains consistent; the <strong>format is the student's choice</strong>.</div>
+          </td>
+          <td>A single written format disadvantages students whose strengths lie in explanation, design, or communication rather than extended prose. Giving students <strong>genuine choice over their output format</strong> means they can play to their strengths while still demonstrating the same knowledge. Producing content for <strong>a real or imagined audience</strong> demands far deeper understanding than answering exam questions ,  students must anticipate confusion, structure their explanation clearly, and make decisions about what matters. This is the <strong>"protege effect"</strong> at work. Google Vids makes <strong>professional-quality video creation accessible</strong> without specialist software, and Google Sites gives every student the ability to build a <strong>real, shareable website</strong> with no coding knowledge.</td>
+          <td>Students develop <strong>communication, creativity, and metacognition</strong> alongside subject knowledge. Studies consistently show that explaining content to others improves the explainer's own retention by <strong>up to 90%</strong> compared to passive reading. When students choose their format, <strong>engagement and pride in their work increases</strong> noticeably. A Google Site or Vids explainer can be <strong>shared with parents, other year groups, or a wider audience</strong>, giving the work a purpose beyond the teacher's mark book and raising the standard students hold themselves to.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">2</div>
+            <div class="tech-name">SketchUp for Schools: 3D Modelling as a Truly Cross-Curricular STEM Experience</div>
+            <div class="tech-desc">Rather than simply studying a historical structure like <strong>El Castillo, Chichen Itza</strong>, students use <strong>SketchUp for Schools</strong> (formerly Google SketchUp) to <strong>build a fully accurate 3D model</strong> of it from scratch. The finished scene can be <strong>walked around in first person</strong>, cameras positioned to capture views from any angle, <strong>time of day and lighting set</strong> to show how the structure looks at dawn or dusk, and <strong>animated fly-through recordings</strong> exported to share or present. This is a genuinely <strong>cross-curricular STEM project</strong> combining history, mathematics, design, and technology in a single task.</div>
+          </td>
+          <td>Reading about a Mayan pyramid describes it. <strong>Building one demands understanding it.</strong> Students must research the real dimensions and proportions, apply <strong>scale, geometry, and spatial reasoning</strong> to get the model right, and make design decisions about materials, textures, and camera angles that require genuine subject knowledge. This is learning that <strong>cannot happen with a textbook</strong>. SketchUp for Schools runs directly in the browser with <strong>no software to install</strong>, making it accessible on any Chromebook, and it is available to Google Workspace for Education schools at no extra cost.</td>
+          <td>Students develop <strong>3D design and spatial thinking skills</strong> that are directly valued in architecture, engineering, game design, and product design. The mathematical thinking required, including scale, measurement, proportion, and angle, is applied in a <strong>real and meaningful context</strong> rather than as abstract exercises. Because the finished model can be <strong>animated and recorded</strong>, the output is a piece of work students are genuinely proud of and will show to others, raising the quality of effort invested. For many students, this is their <strong>first encounter with professional design tools</strong> and a direct window into careers in STEM and the creative industries.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">3</div>
+            <div class="tech-name">Read Along in Google Classroom: Personalised Reading Across Every Phase</div>
+            <div class="tech-desc"><strong>Read Along</strong> is embedded directly inside <strong>Google Classroom</strong>, making it instantly accessible to every student without any additional platform or login. While it is used across KGA's <strong>primary academies</strong>, its application is far wider: teachers in any phase can upload their <strong>own text</strong>, including Shakespeare, subject-specific vocabulary, historical source material, or scientific language, so students read and practise fluency with the exact content of the curriculum. Teachers can also <strong>generate AI-personalised stories</strong> tailored to what the class is studying, a current event, or individual student interests. <strong>Silent reading mode with comprehension questions</strong> ensures students are genuinely engaging with the text rather than passively skimming it.</div>
+          </td>
+          <td>Embedding the platform inside Classroom means there is <strong>no barrier to access</strong>: no separate app, no separate login, no setup for students. A teacher can assign a personalised reading activity in seconds. The ability to <strong>upload your own text</strong> is transformative: a secondary English teacher can paste in a scene from Macbeth and have students read it aloud with real-time fluency feedback. A science teacher can upload a passage full of subject-specific vocabulary and know that students are <strong>actually reading it, not skimming</strong>. The <strong>AI story generator</strong> means teachers can create a reading activity tied to exactly what the class is studying that day, with no preparation time at all.</td>
+          <td>The <strong>teacher dashboard</strong> provides rich, detailed insight into every student: reading accuracy, fluency, speed, comprehension scores, and specifically <strong>where each student is making errors or showing difficulty</strong>. This level of diagnostic data was previously only achievable through one-to-one reading assessments, which are time-consuming and rarely cover every child. With Read Along, the teacher has <strong>live reading data for the whole class at once</strong>. Comprehension questions attached to silent reading mean teachers have evidence that students have understood what they read, not just that they have opened the page. Over time, this creates a <strong>precise, longitudinal picture of every student's reading development</strong> that informs planning, intervention, and parental conversations.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- REDEFINITION -->
+  <section class="stage stage-redef">
+    <div class="stage-header">
+      <div class="stage-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div>
+        <div class="stage-label">Stage 4 of 4 &nbsp;|&nbsp; Transformation</div>
+        <div class="stage-name">Redefinition</div>
+      </div>
+      <div class="stage-badge">New tasks, previously inconceivable</div>
+    </div>
+    <table class="techniques-table">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>Why use this?</div></th>
+          <th><div class="col-label"><svg class="col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Impact on learning</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="tech-num">1</div>
+            <div class="tech-name">Opportunity and Success on a Global Stage: Google Meet, Slides, and Gemini Live Translation</div>
+            <div class="tech-desc">KGA's vision of <strong>Opportunity and Success on a Global Stage</strong> becomes a literal classroom reality with <strong>Google Meet</strong>. Classes can be <strong>linked in real time with schools anywhere in the world</strong>, collaborating on shared <strong>Google Slides</strong> that display <strong>live translated captions</strong> so every participant can read along in their own language. With a <strong>Gemini Advanced licence</strong>, this goes further: <strong>live voice translation</strong> means a KGA teacher speaking in English is heard in Spanish by a partner school in Madrid, and their students' responses are heard back in English ,  all in real time, <strong>with no interpreter needed</strong>.</div>
+          </td>
+          <td>Language has historically been the single greatest barrier to genuine international collaboration in schools. <strong>Google Meet's live captions</strong> already remove the reading barrier, but <strong>Gemini's live voice translation</strong> removes the speaking barrier entirely. A class in Southampton and a class in Barcelona can <strong>hold a real conversation</strong>, debate a shared question, or build a joint presentation together, with each group speaking and hearing their own language. This is not a translation exercise ,  it is a <strong>genuine curriculum lesson happening across two countries simultaneously</strong>, something that was simply not possible before.</td>
+          <td>Students experience first-hand that <strong>language is not a barrier to understanding different cultures</strong>, perspectives, or ideas. They develop <strong>global communication skills, cultural empathy, and international awareness</strong> that no textbook can replicate. For KGA, this is the clearest expression of the school's vision: students are not just learning about the world, they are <strong>participating in it</strong>. The experience of speaking with a peer in another country, in real time, leaves a lasting impression on how students see themselves as <strong>global citizens with a voice on a world stage</strong>.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">2</div>
+            <div class="tech-name">Teacher Vibe Coding: Interactive Simulations Embedded in Google Sites</div>
+            <div class="tech-desc">Using <strong>AI-assisted coding tools</strong>, teachers can <strong>vibe code</strong> bespoke interactive modules without needing to be expert programmers. A science teacher can build a simulation of how a virus spreads through a population; a maths teacher can animate compound interest growing over time; a history teacher can create an interactive map of a battle unfolding. These modules can be <strong>embedded directly into Google Sites</strong>, turning a class website into a <strong>living, interactive learning environment</strong> with built-in challenges for students to solve.</div>
+          </td>
+          <td>A textbook diagram of a concept is static and passive. An <strong>interactive simulation lets students change the variables</strong> and see the consequences in real time, making the abstract tangible and the complex approachable. Because the teacher builds the module around their <strong>exact curriculum content</strong>, it is far more targeted than any off-the-shelf tool. <strong>Vibe coding with AI</strong> means a teacher can describe what they want in plain English and have a working interactive prototype in minutes, with <strong>no specialist technical knowledge required</strong>. Embedding in Google Sites means it is instantly accessible to every student from any device.</td>
+          <td>Complex topics that are <strong>difficult to illustrate or explain verbally</strong> ,  how a circuit works, how supply and demand shift, how tectonic plates move ,  can be <strong>simplified, animated, and made interactive</strong> so students can explore them at their own pace. Built-in challenges and problem-solving tasks within the simulation mean students are <strong>active participants</strong> rather than passive readers. This approach creates <strong>learning experiences that are genuinely impossible with a textbook</strong> and transforms the teacher from a deliverer of content into a <strong>designer of experiences</strong>.</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tech-num">3</div>
+            <div class="tech-name">NotebookLM Revision Packs: Audio Podcasts, Video Overviews, Mind Maps, and Infographics</div>
+            <div class="tech-desc">Teachers upload their <strong>Google Classroom materials</strong> (notes, slides, past papers, worksheets) directly into <strong>NotebookLM</strong>, which uses them as the sole source to generate a full suite of <strong>personalised revision resources</strong>. From one set of class materials, NotebookLM can produce an <strong>audio podcast</strong> for listening on the go, a <strong>narrated video slideshow</strong>, a <strong>mind map</strong> linking key ideas and concepts, a <strong>structured study guide</strong>, and an <strong>infographic</strong> summarising the topic. With a single click, the teacher can generate <strong>differentiated versions</strong> at different levels of complexity for different student groups, and share them all <strong>directly through Google Classroom</strong>.</div>
+          </td>
+          <td>Creating quality revision resources by hand is one of the most time-consuming tasks a teacher faces. <strong>NotebookLM builds them in seconds</strong> from materials the teacher has already made, grounded exclusively in the teacher's own content so every resource reflects <strong>exactly what was taught</strong> in that classroom. <strong>Differentiated packs for different ability groups</strong> can be generated instantly, something that would otherwise take hours of additional preparation. This is a genuinely <strong>new kind of teacher workflow</strong>: from teaching materials to a full, multi-format revision suite in minutes, not days.</td>
+          <td>Students can <strong>revise in the way and at the time that suits them best</strong>. A student who absorbs information better through listening works through the audio podcast on the bus home. A student who needs visual structure uses the mind map. A student who prefers reading uses the study guide. This <strong>genuine flexibility removes the one-size-fits-all barrier</strong> to revision and means students are far more likely to engage with material outside lesson time. Research consistently shows that students who revise using <strong>multiple formats and modalities</strong> retain information more deeply and perform better under exam conditions. This is revision reimagined: <strong>personalised, always available, and built from the curriculum students actually studied</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logos">
+      <div class="footer-brand">
+        <img src="https://mynewterm-logos.s3.eu-west-2.amazonaws.com/logo-144505.png" 
+             alt="King's Group Academies"
+             style="height:32px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <span style="display:none;font-family:'Google Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.9);">King's Group Academies</span>
+      </div>
+      <div class="footer-divider-v"></div>
+      <div class="footer-brand" style="font-weight:400;color:rgba(255,255,255,0.7)">
+        <svg width="15" height="15" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Google for Education
+      </div>
+    </div>
+    <div class="footer-cite">Framework: Puentedura, R.R. (2006). Transformation, Technology, and Education.</div>
+  </div>
+</footer>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var stages = document.querySelectorAll('.stage');
+
+    stages.forEach(function(stage, idx) {
+      var header = stage.querySelector('.stage-header');
+      var table  = stage.querySelector('.techniques-table');
+
+      // Wrap table in a collapsible div
+      var body = document.createElement('div');
+      body.className = 'stage-body';
+      table.parentNode.insertBefore(body, table);
+      body.appendChild(table);
+
+      // Add chevron to header
+      var chevron = document.createElement('span');
+      chevron.className = 'collapse-chevron';
+      chevron.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      header.appendChild(chevron);
+
+      // Collapse all sections on load by default
+      body.classList.add('collapsed');
+      stage.classList.add('is-collapsed');
+
+      function toggle() {
+        var collapsed = body.classList.toggle('collapsed');
+        stage.classList.toggle('is-collapsed', collapsed);
+        // Sync the matching pill
+        var pills = document.querySelectorAll('.stage-pill');
+        if (pills[idx]) pills[idx].classList.toggle('active-pill', !collapsed);
+      }
+
+      header.addEventListener('click', toggle);
+    });
+
+    // Clicking a pill scrolls to and expands that stage
+    var pills = document.querySelectorAll('.stage-pill');
+    pills.forEach(function(pill, idx) {
+      pill.style.cursor = 'pointer';
+      pill.addEventListener('click', function() {
+        var stage = document.querySelectorAll('.stage')[idx];
+        if (!stage) return;
+        var body = stage.querySelector('.stage-body');
+        var isCollapsed = body.classList.contains('collapsed');
+        if (isCollapsed) {
+          body.classList.remove('collapsed');
+          stage.classList.remove('is-collapsed');
+        }
+        stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  });
+</script>
+</body>
+</html>
